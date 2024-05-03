@@ -1,0 +1,4801 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.4
+-- Dumped by pg_dump version 15.4
+
+-- Started on 2024-04-28 14:53:33
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 310 (class 1255 OID 16834)
+-- Name: add_category_created_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_category_created_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('category_created', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_category_created_event() OWNER TO postgres;
+
+--
+-- TOC entry 312 (class 1255 OID 16838)
+-- Name: add_category_deleted_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_category_deleted_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('category_deleted', row_to_json(OLD));
+      RETURN OLD;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_category_deleted_event() OWNER TO postgres;
+
+--
+-- TOC entry 311 (class 1255 OID 16836)
+-- Name: add_category_updated_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_category_updated_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('category_updated', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_category_updated_event() OWNER TO postgres;
+
+--
+-- TOC entry 334 (class 1255 OID 17204)
+-- Name: add_customer_created_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_customer_created_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('customer_created', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_customer_created_event() OWNER TO postgres;
+
+--
+-- TOC entry 336 (class 1255 OID 17208)
+-- Name: add_customer_deleted_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_customer_deleted_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('customer_deleted', row_to_json(OLD));
+      RETURN OLD;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_customer_deleted_event() OWNER TO postgres;
+
+--
+-- TOC entry 335 (class 1255 OID 17206)
+-- Name: add_customer_updated_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_customer_updated_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('customer_updated', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_customer_updated_event() OWNER TO postgres;
+
+--
+-- TOC entry 331 (class 1255 OID 17114)
+-- Name: add_order_created_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_order_created_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('order_created', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_order_created_event() OWNER TO postgres;
+
+--
+-- TOC entry 313 (class 1255 OID 16840)
+-- Name: add_product_created_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_product_created_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('product_created', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_product_created_event() OWNER TO postgres;
+
+--
+-- TOC entry 315 (class 1255 OID 16844)
+-- Name: add_product_deleted_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_product_deleted_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('product_deleted', row_to_json(OLD));
+      RETURN OLD;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_product_deleted_event() OWNER TO postgres;
+
+--
+-- TOC entry 328 (class 1255 OID 16864)
+-- Name: add_product_inventory_updated_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_product_inventory_updated_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('inventory_updated', json_build_object('old', row_to_json(OLD), 'new', row_to_json(NEW)));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_product_inventory_updated_event() OWNER TO postgres;
+
+--
+-- TOC entry 314 (class 1255 OID 16842)
+-- Name: add_product_updated_event(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.add_product_updated_event() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      INSERT INTO event (name, data)
+      VALUES ('product_updated', row_to_json(NEW));
+      RETURN NEW;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.add_product_updated_event() OWNER TO postgres;
+
+--
+-- TOC entry 309 (class 1255 OID 16820)
+-- Name: build_url_key(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.build_url_key() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $_$
+    DECLARE
+      url_key TEXT;
+    BEGIN
+      IF(NEW.url_key IS NULL) THEN
+        url_key = regexp_replace(NEW.name, '[^a-zA-Z0-9]+', '-', 'g');
+        url_key = regexp_replace(url_key, '^-|-$', '', 'g');
+        url_key = lower(url_key);
+        url_key = url_key || '-' || (SELECT floor(random() * 1000000)::text);
+        NEW.url_key = url_key;
+      ELSE
+        IF (NEW.url_key ~ '[/\#]') THEN
+          RAISE EXCEPTION 'Invalid url_key: %', NEW.url_key;
+        END IF;
+      END IF;
+      RETURN NEW;
+    END;
+    $_$;
+
+
+ALTER FUNCTION public.build_url_key() OWNER TO postgres;
+
+--
+-- TOC entry 305 (class 1255 OID 16803)
+-- Name: delete_product_attribute_value_index(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.delete_product_attribute_value_index() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        DELETE FROM "product_attribute_value_index" WHERE "product_attribute_value_index".option_id = OLD.attribute_option_id AND "product_attribute_value_index"."attribute_id" = OLD.attribute_id;
+        RETURN OLD;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.delete_product_attribute_value_index() OWNER TO postgres;
+
+--
+-- TOC entry 327 (class 1255 OID 16862)
+-- Name: delete_sub_categories(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.delete_sub_categories() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+      sub_categories RECORD;
+    BEGIN
+      FOR sub_categories IN
+        WITH RECURSIVE sub_categories AS (
+          SELECT * FROM category WHERE parent_id = OLD.category_id
+          UNION
+          SELECT c.* FROM category c
+          INNER JOIN sub_categories sc ON c.parent_id = sc.category_id
+        ) SELECT * FROM sub_categories
+      LOOP
+        DELETE FROM category WHERE category_id = sub_categories.category_id;
+      END LOOP;
+      RETURN OLD;
+    END;
+    $$;
+
+
+ALTER FUNCTION public.delete_sub_categories() OWNER TO postgres;
+
+--
+-- TOC entry 307 (class 1255 OID 16811)
+-- Name: delete_variant_group_after_attribute_type_changed(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.delete_variant_group_after_attribute_type_changed() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (OLD.type = 'select' AND NEW.type <> 'select') THEN
+          DELETE FROM "variant_group" WHERE ("variant_group".attribute_one = OLD.attribute_id OR "variant_group".attribute_two = OLD.attribute_id OR "variant_group".attribute_three = OLD.attribute_id OR "variant_group".attribute_four = OLD.attribute_id OR "variant_group".attribute_five = OLD.attribute_id);
+        END IF;
+        RETURN NEW;
+      END
+      $$;
+
+
+ALTER FUNCTION public.delete_variant_group_after_attribute_type_changed() OWNER TO postgres;
+
+--
+-- TOC entry 302 (class 1255 OID 16797)
+-- Name: prevent_change_attribute_group(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.prevent_change_attribute_group() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF OLD.group_id != NEW.group_id AND OLD.variant_group_id IS NOT NULL THEN
+          RAISE EXCEPTION 'Cannot change attribute group of product with variants';
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.prevent_change_attribute_group() OWNER TO postgres;
+
+--
+-- TOC entry 301 (class 1255 OID 16795)
+-- Name: prevent_delete_default_attribute_group(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.prevent_delete_default_attribute_group() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF OLD.attribute_group_id = 1 THEN
+          RAISE EXCEPTION 'Cannot delete default attribute group';
+        END IF;
+        RETURN OLD;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.prevent_delete_default_attribute_group() OWNER TO postgres;
+
+--
+-- TOC entry 332 (class 1255 OID 17200)
+-- Name: prevent_delete_default_customer_group(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.prevent_delete_default_customer_group() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF OLD.customer_group_id = 1 THEN
+          RAISE EXCEPTION 'Cannot delete default customer group';
+        END IF;
+        RETURN OLD;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.prevent_delete_default_customer_group() OWNER TO postgres;
+
+--
+-- TOC entry 338 (class 1255 OID 17309)
+-- Name: prevent_delete_default_tax_class(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.prevent_delete_default_tax_class() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF OLD.tax_class_id = 1 THEN
+          RAISE EXCEPTION 'Cannot delete default tax class';
+        END IF;
+        RETURN OLD;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.prevent_delete_default_tax_class() OWNER TO postgres;
+
+--
+-- TOC entry 329 (class 1255 OID 16868)
+-- Name: product_image_insert_trigger(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.product_image_insert_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        INSERT INTO event (name, data)
+        VALUES ('product_image_added', row_to_json(NEW));
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.product_image_insert_trigger() OWNER TO postgres;
+
+--
+-- TOC entry 330 (class 1255 OID 17034)
+-- Name: reduce_product_stock_when_order_placed(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.reduce_product_stock_when_order_placed() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        UPDATE product_inventory SET qty = qty - NEW.qty WHERE product_inventory_product_id = NEW.product_id AND manage_stock = TRUE;
+        RETURN NEW;
+      END
+      $$;
+
+
+ALTER FUNCTION public.reduce_product_stock_when_order_placed() OWNER TO postgres;
+
+--
+-- TOC entry 303 (class 1255 OID 16799)
+-- Name: remove_attribute_from_group(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.remove_attribute_from_group() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        DELETE FROM product_attribute_value_index WHERE product_attribute_value_index.attribute_id = OLD.attribute_id AND product_attribute_value_index.product_id IN (SELECT product.product_id FROM product WHERE product.group_id = OLD.group_id);
+        DELETE FROM variant_group WHERE variant_group.attribute_group_id = OLD.group_id AND (variant_group.attribute_one = OLD.attribute_id OR variant_group.attribute_two = OLD.attribute_id OR variant_group.attribute_three = OLD.attribute_id OR variant_group.attribute_four = OLD.attribute_id OR variant_group.attribute_five = OLD.attribute_id);
+        RETURN OLD;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.remove_attribute_from_group() OWNER TO postgres;
+
+--
+-- TOC entry 337 (class 1255 OID 17245)
+-- Name: set_coupon_used_time(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.set_coupon_used_time() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        UPDATE "coupon" SET used_time = used_time + 1 WHERE coupon = NEW.coupon;
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.set_coupon_used_time() OWNER TO postgres;
+
+--
+-- TOC entry 333 (class 1255 OID 17202)
+-- Name: set_default_customer_group(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.set_default_customer_group() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF NEW.group_id IS NULL THEN
+          NEW.group_id = 1;
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.set_default_customer_group() OWNER TO postgres;
+
+--
+-- TOC entry 308 (class 1255 OID 16808)
+-- Name: update_attribute_index_and_variant_group_visibility(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_attribute_index_and_variant_group_visibility() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        DELETE FROM "product_attribute_value_index"
+        WHERE "product_attribute_value_index"."product_id" = NEW.product_id 
+        AND "product_attribute_value_index"."attribute_id" NOT IN (SELECT "attribute_group_link"."attribute_id" FROM "attribute_group_link" WHERE "attribute_group_link"."group_id" = NEW.group_id);
+        UPDATE "variant_group" SET visibility = COALESCE((SELECT bool_or(visibility) FROM "product" WHERE "product"."variant_group_id" = NEW.variant_group_id AND "product"."status" = TRUE GROUP BY "product"."variant_group_id"), FALSE) WHERE "variant_group"."variant_group_id" = NEW.variant_group_id;
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.update_attribute_index_and_variant_group_visibility() OWNER TO postgres;
+
+--
+-- TOC entry 304 (class 1255 OID 16801)
+-- Name: update_product_attribute_option_value_text(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_product_attribute_option_value_text() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        UPDATE "product_attribute_value_index" SET "option_text" = NEW.option_text
+        WHERE "product_attribute_value_index".option_id = NEW.attribute_option_id AND "product_attribute_value_index".attribute_id = NEW.attribute_id;
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.update_product_attribute_option_value_text() OWNER TO postgres;
+
+--
+-- TOC entry 306 (class 1255 OID 16805)
+-- Name: update_variant_group_visibility(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_variant_group_visibility() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        UPDATE "variant_group" SET visibility = (SELECT bool_or(visibility) FROM "product" WHERE "product"."variant_group_id" = NEW.variant_group_id AND "product"."status" = TRUE) WHERE "variant_group"."variant_group_id" = NEW.variant_group_id;
+        RETURN NEW;
+      END;
+      $$;
+
+
+ALTER FUNCTION public.update_variant_group_visibility() OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 215 (class 1259 OID 16400)
+-- Name: admin_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.admin_user (
+    admin_user_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    email character varying NOT NULL,
+    password character varying NOT NULL,
+    full_name character varying,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.admin_user OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 16399)
+-- Name: admin_user_admin_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.admin_user ALTER COLUMN admin_user_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.admin_user_admin_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 222 (class 1259 OID 16463)
+-- Name: attribute; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.attribute (
+    attribute_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    attribute_code character varying NOT NULL,
+    attribute_name character varying NOT NULL,
+    type character varying NOT NULL,
+    is_required boolean DEFAULT false NOT NULL,
+    display_on_frontend boolean DEFAULT false NOT NULL,
+    sort_order integer DEFAULT 0 NOT NULL,
+    is_filterable boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.attribute OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16462)
+-- Name: attribute_attribute_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.attribute ALTER COLUMN attribute_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.attribute_attribute_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 226 (class 1259 OID 16497)
+-- Name: attribute_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.attribute_group (
+    attribute_group_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    group_name text NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.attribute_group OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 16496)
+-- Name: attribute_group_attribute_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.attribute_group ALTER COLUMN attribute_group_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.attribute_group_attribute_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 228 (class 1259 OID 16510)
+-- Name: attribute_group_link; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.attribute_group_link (
+    attribute_group_link_id integer NOT NULL,
+    attribute_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.attribute_group_link OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 16509)
+-- Name: attribute_group_link_attribute_group_link_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.attribute_group_link ALTER COLUMN attribute_group_link_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.attribute_group_link_attribute_group_link_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 224 (class 1259 OID 16480)
+-- Name: attribute_option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.attribute_option (
+    attribute_option_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    attribute_id integer NOT NULL,
+    attribute_code character varying NOT NULL,
+    option_text character varying NOT NULL
+);
+
+
+ALTER TABLE public.attribute_option OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 16479)
+-- Name: attribute_option_attribute_option_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.attribute_option ALTER COLUMN attribute_option_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.attribute_option_attribute_option_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 256 (class 1259 OID 16871)
+-- Name: cart; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cart (
+    cart_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    sid character varying,
+    currency character varying NOT NULL,
+    customer_id integer,
+    customer_group_id smallint,
+    customer_email character varying,
+    customer_full_name character varying,
+    user_ip character varying,
+    status boolean DEFAULT false NOT NULL,
+    coupon character varying,
+    shipping_fee_excl_tax numeric(12,4) DEFAULT NULL::numeric,
+    shipping_fee_incl_tax numeric(12,4) DEFAULT NULL::numeric,
+    discount_amount numeric(12,4) DEFAULT NULL::numeric,
+    sub_total numeric(12,4) NOT NULL,
+    sub_total_incl_tax numeric(12,4) NOT NULL,
+    total_qty integer NOT NULL,
+    total_weight numeric(12,4) DEFAULT NULL::numeric,
+    tax_amount numeric(12,4) NOT NULL,
+    grand_total numeric(12,4) NOT NULL,
+    shipping_method character varying,
+    shipping_method_name character varying,
+    shipping_zone_id integer,
+    shipping_address_id integer,
+    payment_method character varying,
+    payment_method_name character varying,
+    billing_address_id integer,
+    shipping_note text,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.cart OWNER TO postgres;
+
+--
+-- TOC entry 258 (class 1259 OID 16889)
+-- Name: cart_address; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cart_address (
+    cart_address_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    full_name character varying,
+    postcode character varying,
+    telephone character varying,
+    country character varying,
+    province character varying,
+    city character varying,
+    address_1 character varying,
+    address_2 character varying
+);
+
+
+ALTER TABLE public.cart_address OWNER TO postgres;
+
+--
+-- TOC entry 257 (class 1259 OID 16888)
+-- Name: cart_address_cart_address_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.cart_address ALTER COLUMN cart_address_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.cart_address_cart_address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 255 (class 1259 OID 16870)
+-- Name: cart_cart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.cart ALTER COLUMN cart_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.cart_cart_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 260 (class 1259 OID 16900)
+-- Name: cart_item; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cart_item (
+    cart_item_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    cart_id integer NOT NULL,
+    product_id integer NOT NULL,
+    product_sku character varying NOT NULL,
+    product_name text NOT NULL,
+    thumbnail character varying,
+    product_weight numeric(12,4) DEFAULT NULL::numeric,
+    product_price numeric(12,4) NOT NULL,
+    product_price_incl_tax numeric(12,4) NOT NULL,
+    qty integer NOT NULL,
+    final_price numeric(12,4) NOT NULL,
+    final_price_incl_tax numeric(12,4) NOT NULL,
+    tax_percent numeric(12,4) NOT NULL,
+    tax_amount numeric(12,4) NOT NULL,
+    discount_amount numeric(12,4) NOT NULL,
+    sub_total numeric(12,4) NOT NULL,
+    total numeric(12,4) NOT NULL,
+    variant_group_id integer,
+    variant_options text,
+    product_custom_options text,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.cart_item OWNER TO postgres;
+
+--
+-- TOC entry 259 (class 1259 OID 16899)
+-- Name: cart_item_cart_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.cart_item ALTER COLUMN cart_item_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.cart_item_cart_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 244 (class 1259 OID 16712)
+-- Name: category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.category (
+    category_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    status boolean NOT NULL,
+    parent_id integer,
+    include_in_nav boolean NOT NULL,
+    "position" smallint,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.category OWNER TO postgres;
+
+--
+-- TOC entry 243 (class 1259 OID 16711)
+-- Name: category_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.category ALTER COLUMN category_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.category_category_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 246 (class 1259 OID 16743)
+-- Name: category_description; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.category_description (
+    category_description_id integer NOT NULL,
+    category_description_category_id integer NOT NULL,
+    name character varying NOT NULL,
+    short_description text,
+    description text,
+    image character varying,
+    meta_title text,
+    meta_keywords text,
+    meta_description text,
+    url_key character varying NOT NULL
+);
+
+
+ALTER TABLE public.category_description OWNER TO postgres;
+
+--
+-- TOC entry 245 (class 1259 OID 16742)
+-- Name: category_description_category_description_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.category_description ALTER COLUMN category_description_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.category_description_category_description_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 282 (class 1259 OID 17117)
+-- Name: cms_page; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cms_page (
+    cms_page_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    layout character varying NOT NULL,
+    status boolean,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.cms_page OWNER TO postgres;
+
+--
+-- TOC entry 281 (class 1259 OID 17116)
+-- Name: cms_page_cms_page_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.cms_page ALTER COLUMN cms_page_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.cms_page_cms_page_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 284 (class 1259 OID 17130)
+-- Name: cms_page_description; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cms_page_description (
+    cms_page_description_id integer NOT NULL,
+    cms_page_description_cms_page_id integer,
+    url_key character varying NOT NULL,
+    name character varying NOT NULL,
+    content text,
+    meta_title character varying,
+    meta_keywords character varying,
+    meta_description text
+);
+
+
+ALTER TABLE public.cms_page_description OWNER TO postgres;
+
+--
+-- TOC entry 283 (class 1259 OID 17129)
+-- Name: cms_page_description_cms_page_description_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.cms_page_description ALTER COLUMN cms_page_description_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.cms_page_description_cms_page_description_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 248 (class 1259 OID 16761)
+-- Name: collection; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.collection (
+    collection_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    code character varying NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.collection OWNER TO postgres;
+
+--
+-- TOC entry 247 (class 1259 OID 16760)
+-- Name: collection_collection_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.collection ALTER COLUMN collection_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.collection_collection_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 294 (class 1259 OID 17225)
+-- Name: coupon; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.coupon (
+    coupon_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    status boolean DEFAULT true NOT NULL,
+    description character varying NOT NULL,
+    discount_amount numeric(12,4) NOT NULL,
+    free_shipping boolean DEFAULT false NOT NULL,
+    discount_type character varying DEFAULT '1'::character varying NOT NULL,
+    coupon character varying NOT NULL,
+    used_time integer DEFAULT 0 NOT NULL,
+    target_products jsonb,
+    condition jsonb,
+    user_condition jsonb,
+    buyx_gety jsonb,
+    max_uses_time_per_coupon integer,
+    max_uses_time_per_customer integer,
+    start_date timestamp with time zone,
+    end_date timestamp with time zone,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "POSITIVE_DISCOUNT_AMOUNT" CHECK ((discount_amount >= (0)::numeric)),
+    CONSTRAINT "VALID_PERCENTAGE_DISCOUNT" CHECK (((discount_amount <= (100)::numeric) OR ((discount_type)::text <> 'percentage'::text)))
+);
+
+
+ALTER TABLE public.coupon OWNER TO postgres;
+
+--
+-- TOC entry 293 (class 1259 OID 17224)
+-- Name: coupon_coupon_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.coupon ALTER COLUMN coupon_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.coupon_coupon_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 288 (class 1259 OID 17159)
+-- Name: customer; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customer (
+    customer_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    status smallint DEFAULT 1 NOT NULL,
+    group_id integer DEFAULT 1,
+    email character varying NOT NULL,
+    password character varying NOT NULL,
+    full_name character varying,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.customer OWNER TO postgres;
+
+--
+-- TOC entry 290 (class 1259 OID 17182)
+-- Name: customer_address; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customer_address (
+    customer_address_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    customer_id integer NOT NULL,
+    full_name character varying,
+    telephone character varying,
+    address_1 character varying,
+    address_2 character varying,
+    postcode character varying,
+    city character varying,
+    province character varying,
+    country character varying NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    is_default smallint
+);
+
+
+ALTER TABLE public.customer_address OWNER TO postgres;
+
+--
+-- TOC entry 289 (class 1259 OID 17181)
+-- Name: customer_address_customer_address_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.customer_address ALTER COLUMN customer_address_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.customer_address_customer_address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 287 (class 1259 OID 17158)
+-- Name: customer_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.customer ALTER COLUMN customer_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.customer_customer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 286 (class 1259 OID 17148)
+-- Name: customer_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customer_group (
+    customer_group_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    group_name character varying NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.customer_group OWNER TO postgres;
+
+--
+-- TOC entry 285 (class 1259 OID 17147)
+-- Name: customer_group_customer_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.customer_group ALTER COLUMN customer_group_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.customer_group_customer_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 220 (class 1259 OID 16451)
+-- Name: event; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.event (
+    event_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL,
+    data json,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.event OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16450)
+-- Name: event_event_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.event ALTER COLUMN event_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.event_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 217 (class 1259 OID 16416)
+-- Name: migration; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.migration (
+    migration_id integer NOT NULL,
+    module character varying NOT NULL,
+    version character varying NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.migration OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 16415)
+-- Name: migration_migration_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.migration ALTER COLUMN migration_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.migration_migration_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 262 (class 1259 OID 16926)
+-- Name: order; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."order" (
+    order_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    integration_order_id character varying,
+    sid character varying,
+    order_number character varying NOT NULL,
+    cart_id integer NOT NULL,
+    currency character varying NOT NULL,
+    customer_id integer,
+    customer_email character varying,
+    customer_full_name character varying,
+    user_ip character varying,
+    user_agent character varying,
+    coupon character varying,
+    shipping_fee_excl_tax numeric(12,4) DEFAULT NULL::numeric,
+    shipping_fee_incl_tax numeric(12,4) DEFAULT NULL::numeric,
+    discount_amount numeric(12,4) DEFAULT NULL::numeric,
+    sub_total numeric(12,4) NOT NULL,
+    sub_total_incl_tax numeric(12,4) NOT NULL,
+    total_qty integer NOT NULL,
+    total_weight numeric(12,4) DEFAULT NULL::numeric,
+    tax_amount numeric(12,4) NOT NULL,
+    shipping_note text,
+    grand_total numeric(12,4) NOT NULL,
+    shipping_method character varying,
+    shipping_method_name character varying,
+    shipping_address_id integer,
+    payment_method character varying,
+    payment_method_name character varying,
+    billing_address_id integer,
+    shipment_status character varying,
+    payment_status character varying,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public."order" OWNER TO postgres;
+
+--
+-- TOC entry 264 (class 1259 OID 16947)
+-- Name: order_activity; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.order_activity (
+    order_activity_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    order_activity_order_id integer NOT NULL,
+    comment text NOT NULL,
+    customer_notified boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.order_activity OWNER TO postgres;
+
+--
+-- TOC entry 263 (class 1259 OID 16946)
+-- Name: order_activity_order_activity_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.order_activity ALTER COLUMN order_activity_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.order_activity_order_activity_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 266 (class 1259 OID 16967)
+-- Name: order_address; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.order_address (
+    order_address_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    full_name character varying,
+    postcode character varying,
+    telephone character varying,
+    country character varying,
+    province character varying,
+    city character varying,
+    address_1 character varying,
+    address_2 character varying
+);
+
+
+ALTER TABLE public.order_address OWNER TO postgres;
+
+--
+-- TOC entry 265 (class 1259 OID 16966)
+-- Name: order_address_order_address_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.order_address ALTER COLUMN order_address_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.order_address_order_address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 268 (class 1259 OID 16978)
+-- Name: order_item; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.order_item (
+    order_item_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    order_item_order_id integer NOT NULL,
+    product_id integer NOT NULL,
+    referer integer,
+    product_sku character varying NOT NULL,
+    product_name text NOT NULL,
+    thumbnail character varying,
+    product_weight numeric(12,4) DEFAULT NULL::numeric,
+    product_price numeric(12,4) NOT NULL,
+    product_price_incl_tax numeric(12,4) NOT NULL,
+    qty integer NOT NULL,
+    final_price numeric(12,4) NOT NULL,
+    final_price_incl_tax numeric(12,4) NOT NULL,
+    tax_percent numeric(12,4) NOT NULL,
+    tax_amount numeric(12,4) NOT NULL,
+    discount_amount numeric(12,4) NOT NULL,
+    sub_total numeric(12,4) NOT NULL,
+    total numeric(12,4) NOT NULL,
+    variant_group_id integer,
+    variant_options text,
+    product_custom_options text,
+    requested_data text
+);
+
+
+ALTER TABLE public.order_item OWNER TO postgres;
+
+--
+-- TOC entry 267 (class 1259 OID 16977)
+-- Name: order_item_order_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.order_item ALTER COLUMN order_item_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.order_item_order_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 261 (class 1259 OID 16925)
+-- Name: order_order_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."order" ALTER COLUMN order_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.order_order_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 270 (class 1259 OID 16996)
+-- Name: payment_transaction; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.payment_transaction (
+    payment_transaction_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    payment_transaction_order_id integer NOT NULL,
+    transaction_id character varying,
+    transaction_type character varying NOT NULL,
+    amount numeric(12,4) NOT NULL,
+    parent_transaction_id character varying,
+    payment_action character varying,
+    additional_information text,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.payment_transaction OWNER TO postgres;
+
+--
+-- TOC entry 269 (class 1259 OID 16995)
+-- Name: payment_transaction_payment_transaction_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.payment_transaction ALTER COLUMN payment_transaction_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.payment_transaction_payment_transaction_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 232 (class 1259 OID 16576)
+-- Name: product; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product (
+    product_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    type character varying DEFAULT 'simple'::character varying NOT NULL,
+    variant_group_id integer,
+    visibility boolean DEFAULT true NOT NULL,
+    group_id integer DEFAULT 1,
+    sku character varying NOT NULL,
+    price numeric(12,4) NOT NULL,
+    weight numeric(12,4) DEFAULT NULL::numeric,
+    tax_class smallint,
+    status boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    category_id integer,
+    CONSTRAINT "UNSIGNED_PRICE" CHECK ((price >= (0)::numeric)),
+    CONSTRAINT "UNSIGNED_WEIGHT" CHECK ((weight >= (0)::numeric))
+);
+
+
+ALTER TABLE public.product OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 16610)
+-- Name: product_attribute_value_index; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_attribute_value_index (
+    product_attribute_value_index_id integer NOT NULL,
+    product_id integer NOT NULL,
+    attribute_id integer NOT NULL,
+    option_id integer,
+    option_text text
+);
+
+
+ALTER TABLE public.product_attribute_value_index OWNER TO postgres;
+
+--
+-- TOC entry 233 (class 1259 OID 16609)
+-- Name: product_attribute_value_index_product_attribute_value_index_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_attribute_value_index ALTER COLUMN product_attribute_value_index_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_attribute_value_index_product_attribute_value_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 250 (class 1259 OID 16776)
+-- Name: product_collection; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_collection (
+    product_collection_id integer NOT NULL,
+    collection_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.product_collection OWNER TO postgres;
+
+--
+-- TOC entry 249 (class 1259 OID 16775)
+-- Name: product_collection_product_collection_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_collection ALTER COLUMN product_collection_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_collection_product_collection_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 236 (class 1259 OID 16641)
+-- Name: product_custom_option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_custom_option (
+    product_custom_option_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    product_custom_option_product_id integer NOT NULL,
+    option_name character varying NOT NULL,
+    option_type character varying NOT NULL,
+    is_required boolean DEFAULT false NOT NULL,
+    sort_order integer
+);
+
+
+ALTER TABLE public.product_custom_option OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 16640)
+-- Name: product_custom_option_product_custom_option_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_custom_option ALTER COLUMN product_custom_option_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_custom_option_product_custom_option_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 238 (class 1259 OID 16659)
+-- Name: product_custom_option_value; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_custom_option_value (
+    product_custom_option_value_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    option_id integer NOT NULL,
+    extra_price numeric(12,4) DEFAULT NULL::numeric,
+    sort_order integer,
+    value character varying NOT NULL
+);
+
+
+ALTER TABLE public.product_custom_option_value OWNER TO postgres;
+
+--
+-- TOC entry 237 (class 1259 OID 16658)
+-- Name: product_custom_option_value_product_custom_option_value_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_custom_option_value ALTER COLUMN product_custom_option_value_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_custom_option_value_product_custom_option_value_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 240 (class 1259 OID 16677)
+-- Name: product_description; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_description (
+    product_description_id integer NOT NULL,
+    product_description_product_id integer NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    short_description text,
+    url_key character varying NOT NULL,
+    meta_title text,
+    meta_description text,
+    meta_keywords text
+);
+
+
+ALTER TABLE public.product_description OWNER TO postgres;
+
+--
+-- TOC entry 239 (class 1259 OID 16676)
+-- Name: product_description_product_description_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_description ALTER COLUMN product_description_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_description_product_description_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 242 (class 1259 OID 16695)
+-- Name: product_image; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_image (
+    product_image_id integer NOT NULL,
+    product_image_product_id integer NOT NULL,
+    origin_image character varying NOT NULL,
+    thumb_image text,
+    listing_image text,
+    single_image text,
+    is_main boolean DEFAULT false
+);
+
+
+ALTER TABLE public.product_image OWNER TO postgres;
+
+--
+-- TOC entry 241 (class 1259 OID 16694)
+-- Name: product_image_product_image_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_image ALTER COLUMN product_image_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_image_product_image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 254 (class 1259 OID 16847)
+-- Name: product_inventory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_inventory (
+    product_inventory_id integer NOT NULL,
+    product_inventory_product_id integer NOT NULL,
+    qty integer DEFAULT 0 NOT NULL,
+    manage_stock boolean DEFAULT false NOT NULL,
+    stock_availability boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.product_inventory OWNER TO postgres;
+
+--
+-- TOC entry 253 (class 1259 OID 16846)
+-- Name: product_inventory_product_inventory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product_inventory ALTER COLUMN product_inventory_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_inventory_product_inventory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 231 (class 1259 OID 16575)
+-- Name: product_product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.product ALTER COLUMN product_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 292 (class 1259 OID 17211)
+-- Name: reset_password_token; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reset_password_token (
+    reset_password_token_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    token text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.reset_password_token OWNER TO postgres;
+
+--
+-- TOC entry 291 (class 1259 OID 17210)
+-- Name: reset_password_token_reset_password_token_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.reset_password_token ALTER COLUMN reset_password_token_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.reset_password_token_reset_password_token_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 218 (class 1259 OID 16442)
+-- Name: session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.session (
+    sid character varying NOT NULL,
+    sess json NOT NULL,
+    expire timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.session OWNER TO postgres;
+
+--
+-- TOC entry 296 (class 1259 OID 17280)
+-- Name: setting; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.setting (
+    setting_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL,
+    value text,
+    is_json boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.setting OWNER TO postgres;
+
+--
+-- TOC entry 295 (class 1259 OID 17279)
+-- Name: setting_setting_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.setting ALTER COLUMN setting_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.setting_setting_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 272 (class 1259 OID 17016)
+-- Name: shipment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shipment (
+    shipment_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    shipment_order_id integer NOT NULL,
+    carrier character varying,
+    tracking_number character varying,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.shipment OWNER TO postgres;
+
+--
+-- TOC entry 271 (class 1259 OID 17015)
+-- Name: shipment_shipment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.shipment ALTER COLUMN shipment_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.shipment_shipment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 278 (class 1259 OID 17073)
+-- Name: shipping_method; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shipping_method (
+    shipping_method_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.shipping_method OWNER TO postgres;
+
+--
+-- TOC entry 277 (class 1259 OID 17072)
+-- Name: shipping_method_shipping_method_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.shipping_method ALTER COLUMN shipping_method_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.shipping_method_shipping_method_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 274 (class 1259 OID 17037)
+-- Name: shipping_zone; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shipping_zone (
+    shipping_zone_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL,
+    country character varying NOT NULL
+);
+
+
+ALTER TABLE public.shipping_zone OWNER TO postgres;
+
+--
+-- TOC entry 280 (class 1259 OID 17086)
+-- Name: shipping_zone_method; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shipping_zone_method (
+    shipping_zone_method_id integer NOT NULL,
+    method_id integer NOT NULL,
+    zone_id integer NOT NULL,
+    is_enabled boolean DEFAULT true NOT NULL,
+    cost numeric(12,4) DEFAULT NULL::numeric,
+    calculate_api character varying,
+    condition_type character varying,
+    max numeric(12,4) DEFAULT NULL::numeric,
+    min numeric(12,4) DEFAULT NULL::numeric,
+    CONSTRAINT "CALCULATE API MUST BE PROVIDE IF COST IS NULL" CHECK (((cost IS NOT NULL) OR (calculate_api IS NOT NULL))),
+    CONSTRAINT "CONDITION_TYPE_MUST_BE_PRICE_OR_WEIGHT" CHECK (((condition_type IS NULL) OR ((condition_type)::text = ANY ((ARRAY['price'::character varying, 'weight'::character varying])::text[]))))
+);
+
+
+ALTER TABLE public.shipping_zone_method OWNER TO postgres;
+
+--
+-- TOC entry 279 (class 1259 OID 17085)
+-- Name: shipping_zone_method_shipping_zone_method_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.shipping_zone_method ALTER COLUMN shipping_zone_method_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.shipping_zone_method_shipping_zone_method_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 276 (class 1259 OID 17054)
+-- Name: shipping_zone_province; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shipping_zone_province (
+    shipping_zone_province_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    zone_id integer NOT NULL,
+    province character varying NOT NULL
+);
+
+
+ALTER TABLE public.shipping_zone_province OWNER TO postgres;
+
+--
+-- TOC entry 275 (class 1259 OID 17053)
+-- Name: shipping_zone_province_shipping_zone_province_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.shipping_zone_province ALTER COLUMN shipping_zone_province_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.shipping_zone_province_shipping_zone_province_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 273 (class 1259 OID 17036)
+-- Name: shipping_zone_shipping_zone_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.shipping_zone ALTER COLUMN shipping_zone_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.shipping_zone_shipping_zone_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 298 (class 1259 OID 17294)
+-- Name: tax_class; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tax_class (
+    tax_class_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.tax_class OWNER TO postgres;
+
+--
+-- TOC entry 297 (class 1259 OID 17293)
+-- Name: tax_class_tax_class_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.tax_class ALTER COLUMN tax_class_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.tax_class_tax_class_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 300 (class 1259 OID 17312)
+-- Name: tax_rate; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tax_rate (
+    tax_rate_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL,
+    tax_class_id integer,
+    country character varying DEFAULT '*'::character varying NOT NULL,
+    province character varying DEFAULT '*'::character varying NOT NULL,
+    postcode character varying DEFAULT '*'::character varying NOT NULL,
+    rate numeric(12,4) NOT NULL,
+    is_compound boolean DEFAULT false NOT NULL,
+    priority integer NOT NULL,
+    CONSTRAINT "UNSIGNED_PRIORITY" CHECK ((priority >= 0)),
+    CONSTRAINT "UNSIGNED_RATE" CHECK ((rate >= (0)::numeric))
+);
+
+
+ALTER TABLE public.tax_rate OWNER TO postgres;
+
+--
+-- TOC entry 299 (class 1259 OID 17311)
+-- Name: tax_rate_tax_rate_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.tax_rate ALTER COLUMN tax_rate_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.tax_rate_tax_rate_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 252 (class 1259 OID 16824)
+-- Name: url_rewrite; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.url_rewrite (
+    url_rewrite_id integer NOT NULL,
+    language character varying DEFAULT 'en'::character varying NOT NULL,
+    request_path character varying NOT NULL,
+    target_path character varying NOT NULL,
+    entity_uuid uuid,
+    entity_type character varying
+);
+
+
+ALTER TABLE public.url_rewrite OWNER TO postgres;
+
+--
+-- TOC entry 251 (class 1259 OID 16823)
+-- Name: url_rewrite_url_rewrite_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.url_rewrite ALTER COLUMN url_rewrite_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.url_rewrite_url_rewrite_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 230 (class 1259 OID 16530)
+-- Name: variant_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.variant_group (
+    variant_group_id integer NOT NULL,
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    attribute_group_id integer NOT NULL,
+    attribute_one integer,
+    attribute_two integer,
+    attribute_three integer,
+    attribute_four integer,
+    attribute_five integer,
+    visibility boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.variant_group OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 16529)
+-- Name: variant_group_variant_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.variant_group ALTER COLUMN variant_group_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.variant_group_variant_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 3977 (class 0 OID 16400)
+-- Dependencies: 215
+-- Data for Name: admin_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.admin_user (admin_user_id, uuid, status, email, password, full_name, created_at, updated_at) FROM stdin;
+1	1d7fd1ad-2e60-49fa-848c-e177319737e9	t	thejasbm22@gmail.com	$2a$10$v8zUoHhvn2GYbuI3ZMSy6efioYMoBaTjmAVs4p6f7./FLdlw8W4uK	Thejas	2023-11-07 15:37:51.340797+05:30	2023-11-07 15:37:51.340797+05:30
+3	f0beb349-9870-4da2-bd6d-bef31cc89021	t	sdv@gmail.com	$2a$10$lM/RtpGMc08asw8Hokhu4uXY6dqZ5tOEyh9Wc3DqSUZIYoglXA9zG	sdvadmin	2024-04-25 20:26:34.479066+05:30	2024-04-25 20:26:34.479066+05:30
+\.
+
+
+--
+-- TOC entry 3984 (class 0 OID 16463)
+-- Dependencies: 222
+-- Data for Name: attribute; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attribute (attribute_id, uuid, attribute_code, attribute_name, type, is_required, display_on_frontend, sort_order, is_filterable) FROM stdin;
+1	fea43a71-c0ff-4419-8903-88ec5e3ce5d1	color	Color	select	f	t	0	t
+2	813319f7-85db-4165-91ea-75759738bc63	size	Size	select	f	t	0	t
+\.
+
+
+--
+-- TOC entry 3988 (class 0 OID 16497)
+-- Dependencies: 226
+-- Data for Name: attribute_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attribute_group (attribute_group_id, uuid, group_name, created_at, updated_at) FROM stdin;
+1	37860361-0934-4b5b-9d9f-5d2904ede41d	Default	2023-11-07 15:38:18.488598+05:30	2023-11-07 15:38:18.488598+05:30
+\.
+
+
+--
+-- TOC entry 3990 (class 0 OID 16510)
+-- Dependencies: 228
+-- Data for Name: attribute_group_link; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attribute_group_link (attribute_group_link_id, attribute_id, group_id) FROM stdin;
+1	1	1
+2	2	1
+\.
+
+
+--
+-- TOC entry 3986 (class 0 OID 16480)
+-- Dependencies: 224
+-- Data for Name: attribute_option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attribute_option (attribute_option_id, uuid, attribute_id, attribute_code, option_text) FROM stdin;
+1	ad353000-ca5b-40ef-b851-97094688fb38	1	color	White
+2	1a65f30a-f222-4d44-a248-67abee0d5747	1	color	Black
+3	c94a84cf-90ec-4ece-8d99-e13d5e2bda80	1	color	Yellow
+4	c5462c8d-6be5-4c46-bdb8-1d59e0810b57	2	size	XXL
+5	d6f19027-d6aa-483e-ac9f-8c8463a5fcf7	2	size	XL
+6	faf4b56b-d5e8-4915-b3e2-e36d700ac0d7	2	size	SM
+\.
+
+
+--
+-- TOC entry 4018 (class 0 OID 16871)
+-- Dependencies: 256
+-- Data for Name: cart; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cart (cart_id, uuid, sid, currency, customer_id, customer_group_id, customer_email, customer_full_name, user_ip, status, coupon, shipping_fee_excl_tax, shipping_fee_incl_tax, discount_amount, sub_total, sub_total_incl_tax, total_qty, total_weight, tax_amount, grand_total, shipping_method, shipping_method_name, shipping_zone_id, shipping_address_id, payment_method, payment_method_name, billing_address_id, shipping_note, created_at, updated_at) FROM stdin;
+1	a6fb9b6f-6228-4e18-8af0-78a7393e19f0	nDjygz8M9wJ5DYqGjhvdS2Nq8JwTlJEw	USD	1	1	thejasbm22@gmail.com	Thejas	\N	t	\N	0.0000	0.0000	0.0000	90.0000	90.0000	1	90.0000	0.0000	90.0000	\N	\N	1	7	\N	\N	\N	\N	2023-11-27 18:12:30.829962+05:30	2023-11-27 18:12:30.829962+05:30
+2	71a18aa1-3aee-4a7f-b2e0-2c88579f81bc	3LgC3u_v8XV6UA0_DdwPloiEwrx6UoWL	USD	\N	\N	\N	\N	\N	t	\N	0.0000	0.0000	0.0000	90.0000	90.0000	1	90.0000	0.0000	90.0000	\N	\N	\N	\N	\N	\N	\N	\N	2024-01-04 18:27:48.918128+05:30	2024-01-04 18:27:48.918128+05:30
+3	c061c03c-4e94-400f-856e-cb7e9da1c977	Jq-upHJdCOUmGjU9urOVe0gWpv-t-iEH	USD	\N	\N	\N	\N	\N	t	\N	0.0000	0.0000	0.0000	90.0000	90.0000	1	90.0000	0.0000	90.0000	\N	\N	\N	\N	\N	\N	\N	\N	2024-01-29 10:24:28.063496+05:30	2024-01-29 10:24:28.063496+05:30
+5	497bc06a-0cb3-41c4-a575-9bab35e7ddc1	9GeCDM0zp1h2R_JfvmUe_Od-PpiYEcrR	USD	\N	\N	\N	\N	\N	t	\N	0.0000	0.0000	0.0000	90.0000	90.0000	1	90.0000	0.0000	90.0000	\N	\N	\N	\N	\N	\N	\N	\N	2024-04-20 17:26:32.562217+05:30	2024-04-20 17:26:32.562217+05:30
+6	346c13ba-8cd2-4afc-b935-66b8e89f192d	lNgyzRj_FiXc0lo5mHi0ye8zuZQkTLa3	USD	\N	\N	mayur.proxydigitalsolutions@gmail.com	\N	\N	t	\N	0.0000	0.0000	0.0000	1200.0000	1200.0000	1	23.0000	0.0000	1200.0000	\N	\N	1	10	\N	\N	\N	\N	2024-04-25 20:00:09.999016+05:30	2024-04-25 20:00:09.999016+05:30
+\.
+
+
+--
+-- TOC entry 4020 (class 0 OID 16889)
+-- Dependencies: 258
+-- Data for Name: cart_address; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cart_address (cart_address_id, uuid, full_name, postcode, telephone, country, province, city, address_1, address_2) FROM stdin;
+1	a64d098c-e043-473b-9454-198ce498c989	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+2	87dfc564-3bb0-4191-991b-68344d9b7c04	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+3	f17221b4-e9e9-43b4-b5ed-754fd2b33ca0	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+4	d41017d7-e6a6-4071-bf77-7d14c476cfe7	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+5	118cb70a-bbe3-4b99-a62a-196a59034f3d	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+6	933ec234-6884-487a-a98a-7ecdd1782da1	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+7	ef962db3-89b2-48f5-9c0e-33dc3ced990e	Thejas	572132	9743506465	IN	IN-KA	Madhugiri	Madhugiri	\N
+8	912f29a9-7a31-4050-b104-7c8c539eb413	Mayur	560086	7756810218	IN	IN-KA	dhule	Test	\N
+9	30eb6565-6d0d-4c61-9bd2-5863aaa21648	Mayur	424307	7756810218	IN	IN-KA	Bengaluru	Test	\N
+10	65ff94a4-ed08-40f1-b946-f9295eb99604	Mayur	560086	7756810218	IN	IN-KA	Bengaluru	Test	\N
+\.
+
+
+--
+-- TOC entry 4022 (class 0 OID 16900)
+-- Dependencies: 260
+-- Data for Name: cart_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cart_item (cart_item_id, uuid, cart_id, product_id, product_sku, product_name, thumbnail, product_weight, product_price, product_price_incl_tax, qty, final_price, final_price_incl_tax, tax_percent, tax_amount, discount_amount, sub_total, total, variant_group_id, variant_options, product_custom_options, created_at, updated_at) FROM stdin;
+1	2dac7cc4-f12b-4a0e-824b-b7ad9b129c26	1	4	SCS-24680	Striped Cotton Sweater	\N	90.0000	90.0000	90.0000	1	90.0000	90.0000	0.0000	0.0000	0.0000	90.0000	90.0000	\N	\N	\N	2023-11-27 18:12:30.829962+05:30	2023-11-27 18:12:30.829962+05:30
+2	56f7528d-4a4d-4717-853f-17c0dca192a8	2	4	SCS-24680	Striped Cotton Sweater	/assets/catalog/4475/6163/t-shirt-1--1--thumb.png	90.0000	90.0000	90.0000	1	90.0000	90.0000	0.0000	0.0000	0.0000	90.0000	90.0000	\N	\N	\N	2024-01-04 18:27:48.918128+05:30	2024-01-04 18:27:48.918128+05:30
+3	f4b13757-b86c-4dc8-8467-3047a0e23f87	3	4	SCS-24680	Striped Cotton Sweater	/assets/catalog/4475/6163/t-shirt-1--1--thumb.png	90.0000	90.0000	90.0000	1	90.0000	90.0000	0.0000	0.0000	0.0000	90.0000	90.0000	\N	\N	\N	2024-01-29 10:24:28.063496+05:30	2024-01-29 10:24:28.063496+05:30
+5	1bd2c4ca-1be9-4290-8025-8e5f0612d237	5	4	SCS-24680	Striped Cotton Sweater	/assets/catalog/4475/6163/t-shirt-1--1--thumb.png	90.0000	90.0000	90.0000	2	90.0000	90.0000	0.0000	0.0000	0.0000	180.0000	180.0000	\N	\N	\N	2024-04-20 17:26:32.562217+05:30	2024-04-20 17:26:32.562217+05:30
+6	f5bc78a5-70c4-4ea3-9bc8-c18e68772fe2	6	10	4	Test 3	/assets/catalog/9904/6376/group-1000003375-thumb.png	23.0000	1200.0000	1200.0000	1	1200.0000	1200.0000	0.0000	0.0000	0.0000	1200.0000	1200.0000	\N	\N	\N	2024-04-25 20:00:09.999016+05:30	2024-04-25 20:00:09.999016+05:30
+\.
+
+
+--
+-- TOC entry 4006 (class 0 OID 16712)
+-- Dependencies: 244
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.category (category_id, uuid, status, parent_id, include_in_nav, "position", created_at, updated_at) FROM stdin;
+2	dd010968-dcee-43cb-b806-02b7dd376286	t	\N	t	\N	2023-11-07 15:38:18.488598+05:30	2023-11-07 15:38:18.488598+05:30
+3	1b0a62cc-0d5e-4efb-85a5-731dc2bc1c6f	t	\N	t	\N	2023-11-07 15:38:18.488598+05:30	2023-11-07 15:38:18.488598+05:30
+\.
+
+
+--
+-- TOC entry 4008 (class 0 OID 16743)
+-- Dependencies: 246
+-- Data for Name: category_description; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.category_description (category_description_id, category_description_category_id, name, short_description, description, image, meta_title, meta_keywords, meta_description, url_key) FROM stdin;
+2	2	Women	\N	Women	\N	Women	Women	Women	women
+3	3	Our Products	\N	<p>Our Products</p>		Our Products		Men	products
+\.
+
+
+--
+-- TOC entry 4044 (class 0 OID 17117)
+-- Dependencies: 282
+-- Data for Name: cms_page; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cms_page (cms_page_id, uuid, layout, status, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4046 (class 0 OID 17130)
+-- Dependencies: 284
+-- Data for Name: cms_page_description; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cms_page_description (cms_page_description_id, cms_page_description_cms_page_id, url_key, name, content, meta_title, meta_keywords, meta_description) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4010 (class 0 OID 16761)
+-- Dependencies: 248
+-- Data for Name: collection; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.collection (collection_id, uuid, name, description, code, created_at, updated_at) FROM stdin;
+1	4b3bbdd7-5f1b-44ff-b835-ac114d4e903d	Latest Products		homepage	2023-11-07 15:38:19.043472+05:30	2023-11-07 15:38:19.043472+05:30
+2	333e8023-4a37-4ae4-bf78-84429486e3af	Our Products		home1	2024-01-29 10:50:09.639627+05:30	2024-01-29 10:50:09.639627+05:30
+\.
+
+
+--
+-- TOC entry 4056 (class 0 OID 17225)
+-- Dependencies: 294
+-- Data for Name: coupon; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.coupon (coupon_id, uuid, status, description, discount_amount, free_shipping, discount_type, coupon, used_time, target_products, condition, user_condition, buyx_gety, max_uses_time_per_coupon, max_uses_time_per_customer, start_date, end_date, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4050 (class 0 OID 17159)
+-- Dependencies: 288
+-- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customer (customer_id, uuid, status, group_id, email, password, full_name, created_at, updated_at) FROM stdin;
+1	3b017674-91a1-4afa-a2fe-8ef93021aae4	1	1	thejasbm22@gmail.com	$2a$10$QYAjP/8AMfz6/Og2c.rtUuBKZ.JUn5/Psj8N3uFrHqwNb6/Kh3XeK	Thejas	2023-11-27 18:04:29.341569+05:30	2023-11-27 18:04:29.341569+05:30
+\.
+
+
+--
+-- TOC entry 4052 (class 0 OID 17182)
+-- Dependencies: 290
+-- Data for Name: customer_address; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customer_address (customer_address_id, uuid, customer_id, full_name, telephone, address_1, address_2, postcode, city, province, country, created_at, updated_at, is_default) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4048 (class 0 OID 17148)
+-- Dependencies: 286
+-- Data for Name: customer_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customer_group (customer_group_id, uuid, group_name, created_at, updated_at) FROM stdin;
+1	b60d5d8f-e619-46e5-a730-4ff811cd59c9	Default	2023-11-07 15:38:19.476727+05:30	2023-11-07 15:38:19.476727+05:30
+\.
+
+
+--
+-- TOC entry 3982 (class 0 OID 16451)
+-- Dependencies: 220
+-- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.event (event_id, uuid, name, data, created_at) FROM stdin;
+9	503fff87-890d-4937-bd88-09d0f475a84c	customer_created	{"customer_id":1,"uuid":"3b017674-91a1-4afa-a2fe-8ef93021aae4","status":1,"group_id":1,"email":"thejasbm22@gmail.com","password":"$2a$10$QYAjP/8AMfz6/Og2c.rtUuBKZ.JUn5/Psj8N3uFrHqwNb6/Kh3XeK","full_name":"Thejas","created_at":"2023-11-27T12:34:29.341569+00:00","updated_at":"2023-11-27T12:34:29.341569+00:00"}	2023-11-27 18:04:29.341569+05:30
+10	549d386e-ac2d-49fd-a98c-8aa8321d4266	customer_registered	{"customer_id":1,"uuid":"3b017674-91a1-4afa-a2fe-8ef93021aae4","status":1,"group_id":1,"email":"thejasbm22@gmail.com","password":"$2a$10$QYAjP/8AMfz6/Og2c.rtUuBKZ.JUn5/Psj8N3uFrHqwNb6/Kh3XeK","full_name":"Thejas","created_at":"2023-11-27T12:34:29.341Z","updated_at":"2023-11-27T12:34:29.341Z"}	2023-11-27 18:04:29.351544+05:30
+12	3f8ee9c6-8b7e-4ea3-9dab-a7e327d042f1	inventory_updated	{"old" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}}	2023-11-27 18:30:10.919209+05:30
+15	6cb0c62e-b7cb-4717-8aea-72880f674054	inventory_updated	{"old" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}}	2023-11-27 18:30:46.794415+05:30
+18	d8c9fb5b-fd5c-498f-a3be-6ed00571f67b	inventory_updated	{"old" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}}	2023-11-27 18:31:23.066947+05:30
+21	e7265393-514b-4e4a-be97-0bec66ba0d28	inventory_updated	{"old" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}}	2023-11-27 18:31:34.080771+05:30
+25	261cd06f-ad84-4878-ade9-70352b31d218	inventory_updated	{"old" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}}	2024-01-04 18:09:17.336786+05:30
+34	96735833-ce89-470a-960c-5ff37728f6b1	inventory_updated	{"old" : {"product_inventory_id":6,"product_inventory_product_id":6,"qty":12,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":6,"product_inventory_product_id":6,"qty":12,"manage_stock":true,"stock_availability":true}}	2024-01-29 10:55:50.660501+05:30
+36	286e51ab-8a9c-49c9-b7fa-7319cd85dd39	inventory_updated	{"old" : {"product_inventory_id":6,"product_inventory_product_id":6,"qty":12,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":6,"product_inventory_product_id":6,"qty":12,"manage_stock":true,"stock_availability":true}}	2024-01-29 10:56:22.861277+05:30
+39	43fc6107-a597-43b4-b361-0d856a13e076	inventory_updated	{"old" : {"product_inventory_id":6,"product_inventory_product_id":6,"qty":12,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":6,"product_inventory_product_id":6,"qty":12,"manage_stock":true,"stock_availability":true}}	2024-01-29 10:56:50.315949+05:30
+53	3df65aa0-f742-4607-afda-c1c429171d00	inventory_updated	{"old" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}, "new" : {"product_inventory_id":4,"product_inventory_product_id":4,"qty":150,"manage_stock":true,"stock_availability":true}}	2024-04-25 20:32:19.038624+05:30
+\.
+
+
+--
+-- TOC entry 3979 (class 0 OID 16416)
+-- Dependencies: 217
+-- Data for Name: migration; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.migration (migration_id, module, version, created_at, updated_at) FROM stdin;
+1	auth	1.0.1	2023-11-07 15:38:18.398744+05:30	2023-11-07 15:38:18.398744+05:30
+3	base	1.0.1	2023-11-07 15:38:18.465827+05:30	2023-11-07 15:38:18.465827+05:30
+4	catalog	1.0.6	2023-11-07 15:38:18.488598+05:30	2023-11-07 15:38:18.488598+05:30
+11	checkout	1.0.4	2023-11-07 15:38:19.167522+05:30	2023-11-07 15:38:19.167522+05:30
+16	cms	1.0.0	2023-11-07 15:38:19.432851+05:30	2023-11-07 15:38:19.432851+05:30
+17	customer	1.0.2	2023-11-07 15:38:19.476727+05:30	2023-11-07 15:38:19.476727+05:30
+20	oms	1.0.0	2023-11-07 15:38:19.560344+05:30	2023-11-07 15:38:19.560344+05:30
+21	promotion	1.0.1	2023-11-07 15:38:19.57378+05:30	2023-11-07 15:38:19.57378+05:30
+23	setting	1.0.0	2023-11-07 15:38:19.680477+05:30	2023-11-07 15:38:19.680477+05:30
+24	tax	1.0.0	2023-11-07 15:38:19.70912+05:30	2023-11-07 15:38:19.70912+05:30
+\.
+
+
+--
+-- TOC entry 4024 (class 0 OID 16926)
+-- Dependencies: 262
+-- Data for Name: order; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."order" (order_id, uuid, integration_order_id, sid, order_number, cart_id, currency, customer_id, customer_email, customer_full_name, user_ip, user_agent, coupon, shipping_fee_excl_tax, shipping_fee_incl_tax, discount_amount, sub_total, sub_total_incl_tax, total_qty, total_weight, tax_amount, shipping_note, grand_total, shipping_method, shipping_method_name, shipping_address_id, payment_method, payment_method_name, billing_address_id, shipment_status, payment_status, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4026 (class 0 OID 16947)
+-- Dependencies: 264
+-- Data for Name: order_activity; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.order_activity (order_activity_id, uuid, order_activity_order_id, comment, customer_notified, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4028 (class 0 OID 16967)
+-- Dependencies: 266
+-- Data for Name: order_address; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.order_address (order_address_id, uuid, full_name, postcode, telephone, country, province, city, address_1, address_2) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4030 (class 0 OID 16978)
+-- Dependencies: 268
+-- Data for Name: order_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.order_item (order_item_id, uuid, order_item_order_id, product_id, referer, product_sku, product_name, thumbnail, product_weight, product_price, product_price_incl_tax, qty, final_price, final_price_incl_tax, tax_percent, tax_amount, discount_amount, sub_total, total, variant_group_id, variant_options, product_custom_options, requested_data) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4032 (class 0 OID 16996)
+-- Dependencies: 270
+-- Data for Name: payment_transaction; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.payment_transaction (payment_transaction_id, uuid, payment_transaction_order_id, transaction_id, transaction_type, amount, parent_transaction_id, payment_action, additional_information, created_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3994 (class 0 OID 16576)
+-- Dependencies: 232
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product (product_id, uuid, type, variant_group_id, visibility, group_id, sku, price, weight, tax_class, status, created_at, updated_at, category_id) FROM stdin;
+6	290f45fc-a38d-4be5-8197-303999580665	simple	\N	t	1	123	1234.0000	6.0000	2	t	2024-01-29 10:53:16.646603+05:30	2024-01-29 10:53:16.646603+05:30	3
+9	18cd6424-f5e9-4d5a-b8c0-e440b914c22f	simple	\N	t	1	3	1200.0000	23.0000	2	t	2024-01-29 10:59:43.4612+05:30	2024-01-29 10:59:43.4612+05:30	3
+10	45a98a4e-6770-40ed-b1c9-cd8538a25bd0	simple	\N	t	1	4	1200.0000	23.0000	2	t	2024-01-29 11:00:40.586347+05:30	2024-01-29 11:00:40.586347+05:30	3
+11	0db64370-634b-495d-b1e9-ef76483d7c2d	simple	\N	t	1	222aaa	22.0000	500.0000	\N	t	2024-04-25 20:29:23.873323+05:30	2024-04-25 20:29:23.873323+05:30	\N
+4	74893a95-9e4a-453c-9c43-de2e3e4f9a22	simple	\N	t	1	SCS-24680	90.0000	90.0000	\N	t	2023-11-07 15:38:19.043472+05:30	2023-11-07 15:38:19.043472+05:30	3
+\.
+
+
+--
+-- TOC entry 3996 (class 0 OID 16610)
+-- Dependencies: 234
+-- Data for Name: product_attribute_value_index; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_attribute_value_index (product_attribute_value_index_id, product_id, attribute_id, option_id, option_text) FROM stdin;
+13	6	1	2	Black
+14	6	2	6	SM
+15	9	1	2	Black
+16	9	2	5	XL
+17	10	1	1	White
+18	10	2	4	XXL
+19	4	1	2	Black
+20	4	2	5	XL
+\.
+
+
+--
+-- TOC entry 4012 (class 0 OID 16776)
+-- Dependencies: 250
+-- Data for Name: product_collection; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_collection (product_collection_id, collection_id, product_id) FROM stdin;
+4	1	4
+6	1	6
+7	1	10
+8	1	9
+9	2	10
+10	2	9
+11	2	6
+12	2	4
+\.
+
+
+--
+-- TOC entry 3998 (class 0 OID 16641)
+-- Dependencies: 236
+-- Data for Name: product_custom_option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_custom_option (product_custom_option_id, uuid, product_custom_option_product_id, option_name, option_type, is_required, sort_order) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4000 (class 0 OID 16659)
+-- Dependencies: 238
+-- Data for Name: product_custom_option_value; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_custom_option_value (product_custom_option_value_id, uuid, option_id, extra_price, sort_order, value) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4002 (class 0 OID 16677)
+-- Dependencies: 240
+-- Data for Name: product_description; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_description (product_description_id, product_description_product_id, name, description, short_description, url_key, meta_title, meta_description, meta_keywords) FROM stdin;
+6	6	Test	<p>Test</p>	\N	test			
+8	9	Test 2	<p>test 2</p>	\N	test2			
+9	10	Test 3	<p>test 3</p>	\N	test3			
+10	11	Test	<p>Ttetsts</p>	\N	test33			
+4	4	Striped Cotton Sweater22	Stay cozy and chic with our Striped Cotton Sweater. This lightweight sweater features a timeless striped pattern that adds a pop of style to your outfit. The breathable cotton fabric makes it an excellent choice for layering during transitional seasons. The relaxed fit and ribbed cuffs ensure a comfortable and flattering look, whether you're lounging at home or going out for a casual day.	\N	striped-cotton-sweater	Striped Cotton Sweater	Striped Cotton Sweater	Striped Cotton Sweater
+\.
+
+
+--
+-- TOC entry 4004 (class 0 OID 16695)
+-- Dependencies: 242
+-- Data for Name: product_image; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_image (product_image_id, product_image_product_id, origin_image, thumb_image, listing_image, single_image, is_main) FROM stdin;
+7	6	/assets/catalog/6235/2765/group-1000003375.png	/assets/catalog/6235/2765/group-1000003375-thumb.png	/assets/catalog/6235/2765/group-1000003375-listing.png	/assets/catalog/6235/2765/group-1000003375-single.png	t
+8	6	/assets/catalog/5289/6825/group-1000003375.png	/assets/catalog/5289/6825/group-1000003375-thumb.png	/assets/catalog/5289/6825/group-1000003375-listing.png	/assets/catalog/5289/6825/group-1000003375-single.png	f
+10	9	/assets/catalog/8076/1179/group-1000003375.png	/assets/catalog/8076/1179/group-1000003375-thumb.png	/assets/catalog/8076/1179/group-1000003375-listing.png	/assets/catalog/8076/1179/group-1000003375-single.png	f
+9	9	/assets/catalog/6289/6961/group-1000003375.png	/assets/catalog/6289/6961/group-1000003375-thumb.png	/assets/catalog/6289/6961/group-1000003375-listing.png	/assets/catalog/6289/6961/group-1000003375-single.png	t
+11	10	/assets/catalog/9904/6376/group-1000003375.png	/assets/catalog/9904/6376/group-1000003375-thumb.png	/assets/catalog/9904/6376/group-1000003375-listing.png	/assets/catalog/9904/6376/group-1000003375-single.png	t
+12	10	/assets/catalog/1344/8979/group-1000003375.png	/assets/catalog/1344/8979/group-1000003375-thumb.png	/assets/catalog/1344/8979/group-1000003375-listing.png	/assets/catalog/1344/8979/group-1000003375-single.png	f
+1	4	/assets/catalog/4475/6163/t-shirt-1--1-.png	/assets/catalog/4475/6163/t-shirt-1--1--thumb.png	/assets/catalog/4475/6163/t-shirt-1--1--listing.png	/assets/catalog/4475/6163/t-shirt-1--1--single.png	t
+3	4	/assets/catalog/6064/1826/layer-11-1.png	/assets/catalog/6064/1826/layer-11-1-thumb.png	/assets/catalog/6064/1826/layer-11-1-listing.png	/assets/catalog/6064/1826/layer-11-1-single.png	f
+\.
+
+
+--
+-- TOC entry 4016 (class 0 OID 16847)
+-- Dependencies: 254
+-- Data for Name: product_inventory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.product_inventory (product_inventory_id, product_inventory_product_id, qty, manage_stock, stock_availability) FROM stdin;
+6	6	12	t	t
+7	9	120	t	t
+8	10	12	t	t
+9	11	20	t	t
+4	4	150	t	t
+\.
+
+
+--
+-- TOC entry 4054 (class 0 OID 17211)
+-- Dependencies: 292
+-- Data for Name: reset_password_token; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reset_password_token (reset_password_token_id, customer_id, token, created_at) FROM stdin;
+1	1	9a55827674148cb536f2889387311777ab33d66437208d4d445a4b802c06181d	2024-01-02 15:44:34.049817+05:30
+\.
+
+
+--
+-- TOC entry 3980 (class 0 OID 16442)
+-- Dependencies: 218
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.session (sid, sess, expire) FROM stdin;
+lNgyzRj_FiXc0lo5mHi0ye8zuZQkTLa3	{"cookie":{"originalMaxAge":86400000,"expires":"2024-04-26T14:29:31.874Z","httpOnly":true,"path":"/"}}	2024-04-27 14:14:10
+5MJufPVCzkVJHlpfnBRqXZpV2mw90l5Y	{"cookie":{"originalMaxAge":86400000,"expires":"2024-04-29T08:56:45.272Z","httpOnly":true,"path":"/"}}	2024-04-29 09:02:12
+ne4zaIsraoIo9nMxdacUTdsGfxFb5Skw	{"cookie":{"originalMaxAge":86400000,"expires":"2024-04-26T14:32:40.291Z","httpOnly":true,"path":"/"},"userID":3}	2024-04-27 14:13:10
+w9HRHt0f7TyOSzSkwW3Qw0Utz6b00O-V	{"cookie":{"originalMaxAge":86400000,"expires":"2024-04-29T09:00:34.263Z","httpOnly":true,"path":"/"},"userID":3}	2024-04-29 09:01:12
+\.
+
+
+--
+-- TOC entry 4058 (class 0 OID 17280)
+-- Dependencies: 296
+-- Data for Name: setting; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.setting (setting_id, uuid, name, value, is_json) FROM stdin;
+19	c816acfa-082e-46f4-9b5a-5779bb3f8eba	stripePaymentStatus	0	f
+20	345b5fa4-816b-47e8-81a5-71f0196ce8e8	stripeDislayName	Credit Card	f
+21	0f48f878-6fdf-4d3d-8d99-31db697096b1	stripePublishableKey		f
+22	9cde21a7-dd3a-4527-839b-f7442d8429ab	stripeSecretKey		f
+23	20095b84-d9a7-4f07-8e86-52c346a2b523	stripeEndpointSecret		f
+24	d352276c-0877-4ac0-a3bb-790afa73c480	paypalPaymentStatus	0	f
+25	adb97eba-b3b2-4a14-a7b8-3d5b3428d457	paypalDislayName	Paypal	f
+26	ae80e60f-019f-4c66-938e-c9372e2d594d	paypalClientId		f
+27	1605c9b6-5180-44c5-b0ab-74340373cb7e	paypalClientSecret		f
+28	92db13b8-7f9a-48cf-95e5-be6526520e7e	paypalEnvironment	https://api-m.sandbox.paypal.com	f
+29	3d1fc8dc-0ccf-460d-8ab0-db8d2ae4bec8	codPaymentStatus	1	f
+30	1ae1b87b-7216-4e00-9d09-9b3458529f7c	codDislayName	Cash On Delivery	f
+1	84a66089-c1f3-4ee5-825e-52641b731048	storeName	Bhukkhad	f
+2	d47df127-b401-464f-80a3-c624f29435ba	storeDescription	An Amazing Bhukkhad Store	f
+3	972b276e-a478-4d48-a354-a18475f522d3	storePhoneNumber		f
+4	3997dc93-a19c-4cbd-9907-7eba7c2e4ebb	storeEmail		f
+5	f4bb86bb-8054-4cc8-ac7d-be29cf75fc3b	storeCountry	IN	f
+6	01e34b01-1fb0-4c08-b05c-82d1d0f80537	storeAddress		f
+7	387a3216-6ad4-49c6-ab16-93792c2207de	storeCity		f
+8	92d5dd73-902b-4525-aeaf-4db08b5dddf3	storeProvince	IN-KA	f
+9	ae8ea290-772e-4314-9d4d-3f6af2bf6f74	storePostalCode		f
+\.
+
+
+--
+-- TOC entry 4034 (class 0 OID 17016)
+-- Dependencies: 272
+-- Data for Name: shipment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shipment (shipment_id, uuid, shipment_order_id, carrier, tracking_number, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4040 (class 0 OID 17073)
+-- Dependencies: 278
+-- Data for Name: shipping_method; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shipping_method (shipping_method_id, uuid, name) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4036 (class 0 OID 17037)
+-- Dependencies: 274
+-- Data for Name: shipping_zone; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shipping_zone (shipping_zone_id, uuid, name, country) FROM stdin;
+1	c4f4a7bc-9e6a-4c39-bc2c-f78817a0db77	Test	IN
+\.
+
+
+--
+-- TOC entry 4042 (class 0 OID 17086)
+-- Dependencies: 280
+-- Data for Name: shipping_zone_method; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shipping_zone_method (shipping_zone_method_id, method_id, zone_id, is_enabled, cost, calculate_api, condition_type, max, min) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4038 (class 0 OID 17054)
+-- Dependencies: 276
+-- Data for Name: shipping_zone_province; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shipping_zone_province (shipping_zone_province_id, uuid, zone_id, province) FROM stdin;
+1	0c71fa0c-ac31-4b11-839a-0fa8032b3475	1	IN-KA
+\.
+
+
+--
+-- TOC entry 4060 (class 0 OID 17294)
+-- Dependencies: 298
+-- Data for Name: tax_class; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tax_class (tax_class_id, uuid, name) FROM stdin;
+1	1ad41bb1-669f-40c4-bf86-ef2e14d90bc8	Taxable Goods
+2	dea53f20-b52a-4be9-9fc6-b9f7ba3833a6	GST
+\.
+
+
+--
+-- TOC entry 4062 (class 0 OID 17312)
+-- Dependencies: 300
+-- Data for Name: tax_rate; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tax_rate (tax_rate_id, uuid, name, tax_class_id, country, province, postcode, rate, is_compound, priority) FROM stdin;
+1	24996b0a-5d71-43ea-bb17-1a8d3509335a	Tax	1	*	*	*	0.0000	f	0
+2	b4734adf-919a-493e-a328-0a94e4a27d26	CGST	2	India	Karnataka	572132	2.5000	t	1
+4	e66d626c-a2be-434f-b480-89748acd7ef4	SGST	2	India	Karnataka	572132	2.5000	t	2
+\.
+
+
+--
+-- TOC entry 4014 (class 0 OID 16824)
+-- Dependencies: 252
+-- Data for Name: url_rewrite; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.url_rewrite (url_rewrite_id, language, request_path, target_path, entity_uuid, entity_type) FROM stdin;
+3	en	/products	/category/1b0a62cc-0d5e-4efb-85a5-731dc2bc1c6f	1b0a62cc-0d5e-4efb-85a5-731dc2bc1c6f	category
+2	en	/women	/category/dd010968-dcee-43cb-b806-02b7dd376286	dd010968-dcee-43cb-b806-02b7dd376286	category
+4	en	/floral-maxi-dress	/product/04e8fca4-4a16-485e-9f08-2f86252b6886	04e8fca4-4a16-485e-9f08-2f86252b6886	product
+5	en	/classic-leather-loafers	/product/d784d7b0-de76-48e4-aa39-a747ef6de4e7	d784d7b0-de76-48e4-aa39-a747ef6de4e7	product
+6	en	/denim-skinny-jeans	/product/686da564-9438-4a7c-a97e-70d0d22e1ecd	686da564-9438-4a7c-a97e-70d0d22e1ecd	product
+12	en	/products/tst	/product/3974b71a-f69e-49a9-a3b7-9ff7f0633949	3974b71a-f69e-49a9-a3b7-9ff7f0633949	product
+16	en	/products/test	/product/290f45fc-a38d-4be5-8197-303999580665	290f45fc-a38d-4be5-8197-303999580665	product
+24	en	/products/test2	/product/18cd6424-f5e9-4d5a-b8c0-e440b914c22f	18cd6424-f5e9-4d5a-b8c0-e440b914c22f	product
+26	en	/products/test3	/product/45a98a4e-6770-40ed-b1c9-cd8538a25bd0	45a98a4e-6770-40ed-b1c9-cd8538a25bd0	product
+29	en	/test33	/product/0db64370-634b-495d-b1e9-ef76483d7c2d	0db64370-634b-495d-b1e9-ef76483d7c2d	product
+7	en	/products/striped-cotton-sweater	/product/74893a95-9e4a-453c-9c43-de2e3e4f9a22	74893a95-9e4a-453c-9c43-de2e3e4f9a22	product
+\.
+
+
+--
+-- TOC entry 3992 (class 0 OID 16530)
+-- Dependencies: 230
+-- Data for Name: variant_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.variant_group (variant_group_id, uuid, attribute_group_id, attribute_one, attribute_two, attribute_three, attribute_four, attribute_five, visibility) FROM stdin;
+1	b0eb8fb4-f59f-4906-82e7-828726cd7138	1	2	\N	\N	\N	\N	f
+2	1d122ab2-fc2d-4f27-a140-980486d8c28a	1	1	2	\N	\N	\N	f
+\.
+
+
+--
+-- TOC entry 4068 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: admin_user_admin_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.admin_user_admin_user_id_seq', 3, true);
+
+
+--
+-- TOC entry 4069 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: attribute_attribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_attribute_id_seq', 2, true);
+
+
+--
+-- TOC entry 4070 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: attribute_group_attribute_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_group_attribute_group_id_seq', 1, true);
+
+
+--
+-- TOC entry 4071 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: attribute_group_link_attribute_group_link_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_group_link_attribute_group_link_id_seq', 2, true);
+
+
+--
+-- TOC entry 4072 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: attribute_option_attribute_option_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_option_attribute_option_id_seq', 6, true);
+
+
+--
+-- TOC entry 4073 (class 0 OID 0)
+-- Dependencies: 257
+-- Name: cart_address_cart_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cart_address_cart_address_id_seq', 10, true);
+
+
+--
+-- TOC entry 4074 (class 0 OID 0)
+-- Dependencies: 255
+-- Name: cart_cart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cart_cart_id_seq', 6, true);
+
+
+--
+-- TOC entry 4075 (class 0 OID 0)
+-- Dependencies: 259
+-- Name: cart_item_cart_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cart_item_cart_item_id_seq', 6, true);
+
+
+--
+-- TOC entry 4076 (class 0 OID 0)
+-- Dependencies: 243
+-- Name: category_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.category_category_id_seq', 3, true);
+
+
+--
+-- TOC entry 4077 (class 0 OID 0)
+-- Dependencies: 245
+-- Name: category_description_category_description_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.category_description_category_description_id_seq', 3, true);
+
+
+--
+-- TOC entry 4078 (class 0 OID 0)
+-- Dependencies: 281
+-- Name: cms_page_cms_page_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cms_page_cms_page_id_seq', 1, false);
+
+
+--
+-- TOC entry 4079 (class 0 OID 0)
+-- Dependencies: 283
+-- Name: cms_page_description_cms_page_description_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cms_page_description_cms_page_description_id_seq', 1, false);
+
+
+--
+-- TOC entry 4080 (class 0 OID 0)
+-- Dependencies: 247
+-- Name: collection_collection_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.collection_collection_id_seq', 2, true);
+
+
+--
+-- TOC entry 4081 (class 0 OID 0)
+-- Dependencies: 293
+-- Name: coupon_coupon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.coupon_coupon_id_seq', 1, false);
+
+
+--
+-- TOC entry 4082 (class 0 OID 0)
+-- Dependencies: 289
+-- Name: customer_address_customer_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.customer_address_customer_address_id_seq', 1, false);
+
+
+--
+-- TOC entry 4083 (class 0 OID 0)
+-- Dependencies: 287
+-- Name: customer_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.customer_customer_id_seq', 1, true);
+
+
+--
+-- TOC entry 4084 (class 0 OID 0)
+-- Dependencies: 285
+-- Name: customer_group_customer_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.customer_group_customer_group_id_seq', 1, true);
+
+
+--
+-- TOC entry 4085 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: event_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.event_event_id_seq', 53, true);
+
+
+--
+-- TOC entry 4086 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: migration_migration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.migration_migration_id_seq', 24, true);
+
+
+--
+-- TOC entry 4087 (class 0 OID 0)
+-- Dependencies: 263
+-- Name: order_activity_order_activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.order_activity_order_activity_id_seq', 1, false);
+
+
+--
+-- TOC entry 4088 (class 0 OID 0)
+-- Dependencies: 265
+-- Name: order_address_order_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.order_address_order_address_id_seq', 1, false);
+
+
+--
+-- TOC entry 4089 (class 0 OID 0)
+-- Dependencies: 267
+-- Name: order_item_order_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.order_item_order_item_id_seq', 1, false);
+
+
+--
+-- TOC entry 4090 (class 0 OID 0)
+-- Dependencies: 261
+-- Name: order_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.order_order_id_seq', 1, false);
+
+
+--
+-- TOC entry 4091 (class 0 OID 0)
+-- Dependencies: 269
+-- Name: payment_transaction_payment_transaction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.payment_transaction_payment_transaction_id_seq', 1, false);
+
+
+--
+-- TOC entry 4092 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: product_attribute_value_index_product_attribute_value_index_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_attribute_value_index_product_attribute_value_index_seq', 20, true);
+
+
+--
+-- TOC entry 4093 (class 0 OID 0)
+-- Dependencies: 249
+-- Name: product_collection_product_collection_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_collection_product_collection_id_seq', 12, true);
+
+
+--
+-- TOC entry 4094 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: product_custom_option_product_custom_option_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_custom_option_product_custom_option_id_seq', 1, false);
+
+
+--
+-- TOC entry 4095 (class 0 OID 0)
+-- Dependencies: 237
+-- Name: product_custom_option_value_product_custom_option_value_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_custom_option_value_product_custom_option_value_id_seq', 1, false);
+
+
+--
+-- TOC entry 4096 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: product_description_product_description_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_description_product_description_id_seq', 10, true);
+
+
+--
+-- TOC entry 4097 (class 0 OID 0)
+-- Dependencies: 241
+-- Name: product_image_product_image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_image_product_image_id_seq', 13, true);
+
+
+--
+-- TOC entry 4098 (class 0 OID 0)
+-- Dependencies: 253
+-- Name: product_inventory_product_inventory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_inventory_product_inventory_id_seq', 9, true);
+
+
+--
+-- TOC entry 4099 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: product_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.product_product_id_seq', 11, true);
+
+
+--
+-- TOC entry 4100 (class 0 OID 0)
+-- Dependencies: 291
+-- Name: reset_password_token_reset_password_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reset_password_token_reset_password_token_id_seq', 1, true);
+
+
+--
+-- TOC entry 4101 (class 0 OID 0)
+-- Dependencies: 295
+-- Name: setting_setting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.setting_setting_id_seq', 60, true);
+
+
+--
+-- TOC entry 4102 (class 0 OID 0)
+-- Dependencies: 271
+-- Name: shipment_shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shipment_shipment_id_seq', 1, false);
+
+
+--
+-- TOC entry 4103 (class 0 OID 0)
+-- Dependencies: 277
+-- Name: shipping_method_shipping_method_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shipping_method_shipping_method_id_seq', 1, false);
+
+
+--
+-- TOC entry 4104 (class 0 OID 0)
+-- Dependencies: 279
+-- Name: shipping_zone_method_shipping_zone_method_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shipping_zone_method_shipping_zone_method_id_seq', 1, false);
+
+
+--
+-- TOC entry 4105 (class 0 OID 0)
+-- Dependencies: 275
+-- Name: shipping_zone_province_shipping_zone_province_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shipping_zone_province_shipping_zone_province_id_seq', 1, true);
+
+
+--
+-- TOC entry 4106 (class 0 OID 0)
+-- Dependencies: 273
+-- Name: shipping_zone_shipping_zone_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shipping_zone_shipping_zone_id_seq', 1, true);
+
+
+--
+-- TOC entry 4107 (class 0 OID 0)
+-- Dependencies: 297
+-- Name: tax_class_tax_class_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tax_class_tax_class_id_seq', 2, true);
+
+
+--
+-- TOC entry 4108 (class 0 OID 0)
+-- Dependencies: 299
+-- Name: tax_rate_tax_rate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tax_rate_tax_rate_id_seq', 4, true);
+
+
+--
+-- TOC entry 4109 (class 0 OID 0)
+-- Dependencies: 251
+-- Name: url_rewrite_url_rewrite_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.url_rewrite_url_rewrite_id_seq', 32, true);
+
+
+--
+-- TOC entry 4110 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: variant_group_variant_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.variant_group_variant_group_id_seq', 2, true);
+
+
+--
+-- TOC entry 3534 (class 2606 OID 16412)
+-- Name: admin_user ADMIN_USER_EMAIL_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin_user
+    ADD CONSTRAINT "ADMIN_USER_EMAIL_UNIQUE" UNIQUE (email);
+
+
+--
+-- TOC entry 3536 (class 2606 OID 16414)
+-- Name: admin_user ADMIN_USER_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin_user
+    ADD CONSTRAINT "ADMIN_USER_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3551 (class 2606 OID 16476)
+-- Name: attribute ATTRIBUTE_CODE_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute
+    ADD CONSTRAINT "ATTRIBUTE_CODE_UNIQUE" UNIQUE (attribute_code);
+
+
+--
+-- TOC entry 3553 (class 2606 OID 16478)
+-- Name: attribute ATTRIBUTE_CODE_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute
+    ADD CONSTRAINT "ATTRIBUTE_CODE_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3566 (class 2606 OID 16516)
+-- Name: attribute_group_link ATTRIBUTE_GROUP_LINK_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_group_link
+    ADD CONSTRAINT "ATTRIBUTE_GROUP_LINK_UNIQUE" UNIQUE (attribute_id, group_id);
+
+
+--
+-- TOC entry 3562 (class 2606 OID 16508)
+-- Name: attribute_group ATTRIBUTE_GROUP_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_group
+    ADD CONSTRAINT "ATTRIBUTE_GROUP_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3557 (class 2606 OID 16489)
+-- Name: attribute_option ATTRIBUTE_OPTION_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_option
+    ADD CONSTRAINT "ATTRIBUTE_OPTION_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3654 (class 2606 OID 16898)
+-- Name: cart_address CART_ADDRESS_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart_address
+    ADD CONSTRAINT "CART_ADDRESS_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3658 (class 2606 OID 16912)
+-- Name: cart_item CART_ITEM_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart_item
+    ADD CONSTRAINT "CART_ITEM_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3649 (class 2606 OID 16887)
+-- Name: cart CART_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart
+    ADD CONSTRAINT "CART_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3622 (class 2606 OID 16751)
+-- Name: category_description CATEGORY_ID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category_description
+    ADD CONSTRAINT "CATEGORY_ID_UNIQUE" UNIQUE (category_description_category_id);
+
+
+--
+-- TOC entry 3624 (class 2606 OID 16753)
+-- Name: category_description CATEGORY_URL_KEY_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category_description
+    ADD CONSTRAINT "CATEGORY_URL_KEY_UNIQUE" UNIQUE (url_key);
+
+
+--
+-- TOC entry 3618 (class 2606 OID 16721)
+-- Name: category CATEGORY_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT "CATEGORY_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3719 (class 2606 OID 17128)
+-- Name: cms_page CMS_PAGE_UUID; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cms_page
+    ADD CONSTRAINT "CMS_PAGE_UUID" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3629 (class 2606 OID 16772)
+-- Name: collection COLLECTION_CODE_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.collection
+    ADD CONSTRAINT "COLLECTION_CODE_UNIQUE" UNIQUE (code);
+
+
+--
+-- TOC entry 3631 (class 2606 OID 16774)
+-- Name: collection COLLECTION_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.collection
+    ADD CONSTRAINT "COLLECTION_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3746 (class 2606 OID 17244)
+-- Name: coupon COUPON_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon
+    ADD CONSTRAINT "COUPON_UNIQUE" UNIQUE (coupon);
+
+
+--
+-- TOC entry 3748 (class 2606 OID 17242)
+-- Name: coupon COUPON_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon
+    ADD CONSTRAINT "COUPON_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3739 (class 2606 OID 17193)
+-- Name: customer_address CUSTOMER_ADDRESS_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_address
+    ADD CONSTRAINT "CUSTOMER_ADDRESS_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3732 (class 2606 OID 17174)
+-- Name: customer CUSTOMER_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer
+    ADD CONSTRAINT "CUSTOMER_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3734 (class 2606 OID 17172)
+-- Name: customer EMAIL_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer
+    ADD CONSTRAINT "EMAIL_UNIQUE" UNIQUE (email);
+
+
+--
+-- TOC entry 3547 (class 2606 OID 16461)
+-- Name: event EVENT_UUID; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT "EVENT_UUID" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3715 (class 2606 OID 17100)
+-- Name: shipping_zone_method METHOD_ZONE_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_method
+    ADD CONSTRAINT "METHOD_ZONE_UNIQUE" UNIQUE (zone_id, method_id);
+
+
+--
+-- TOC entry 3540 (class 2606 OID 16426)
+-- Name: migration MODULE_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.migration
+    ADD CONSTRAINT "MODULE_UNIQUE" UNIQUE (module);
+
+
+--
+-- TOC entry 3593 (class 2606 OID 16621)
+-- Name: product_attribute_value_index OPTION_VALUE_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_attribute_value_index
+    ADD CONSTRAINT "OPTION_VALUE_UNIQUE" UNIQUE (product_id, attribute_id, option_id);
+
+
+--
+-- TOC entry 3671 (class 2606 OID 16959)
+-- Name: order_activity ORDER_ACTIVITY_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_activity
+    ADD CONSTRAINT "ORDER_ACTIVITY_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3675 (class 2606 OID 16976)
+-- Name: order_address ORDER_ADDRESS_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_address
+    ADD CONSTRAINT "ORDER_ADDRESS_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3680 (class 2606 OID 16988)
+-- Name: order_item ORDER_ITEM_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_item
+    ADD CONSTRAINT "ORDER_ITEM_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3664 (class 2606 OID 16945)
+-- Name: order ORDER_NUMBER_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."order"
+    ADD CONSTRAINT "ORDER_NUMBER_UNIQUE" UNIQUE (order_number);
+
+
+--
+-- TOC entry 3666 (class 2606 OID 16943)
+-- Name: order ORDER_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."order"
+    ADD CONSTRAINT "ORDER_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3724 (class 2606 OID 17138)
+-- Name: cms_page_description PAGE_ID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cms_page_description
+    ADD CONSTRAINT "PAGE_ID_UNIQUE" UNIQUE (cms_page_description_cms_page_id);
+
+
+--
+-- TOC entry 3685 (class 2606 OID 17006)
+-- Name: payment_transaction PAYMENT_TRANSACTION_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payment_transaction
+    ADD CONSTRAINT "PAYMENT_TRANSACTION_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3637 (class 2606 OID 16782)
+-- Name: product_collection PRODUCT_COLLECTION_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_collection
+    ADD CONSTRAINT "PRODUCT_COLLECTION_UNIQUE" UNIQUE (collection_id, product_id);
+
+
+--
+-- TOC entry 3598 (class 2606 OID 16651)
+-- Name: product_custom_option PRODUCT_CUSTOM_OPTION_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_custom_option
+    ADD CONSTRAINT "PRODUCT_CUSTOM_OPTION_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3603 (class 2606 OID 16669)
+-- Name: product_custom_option_value PRODUCT_CUSTOM_OPTION_VALUE_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_custom_option_value
+    ADD CONSTRAINT "PRODUCT_CUSTOM_OPTION_VALUE_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3608 (class 2606 OID 16685)
+-- Name: product_description PRODUCT_ID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_description
+    ADD CONSTRAINT "PRODUCT_ID_UNIQUE" UNIQUE (product_description_product_id);
+
+
+--
+-- TOC entry 3645 (class 2606 OID 16856)
+-- Name: product_inventory PRODUCT_INVENTORY_PRODUCT_ID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_inventory
+    ADD CONSTRAINT "PRODUCT_INVENTORY_PRODUCT_ID_UNIQUE" UNIQUE (product_inventory_product_id);
+
+
+--
+-- TOC entry 3584 (class 2606 OID 16596)
+-- Name: product PRODUCT_SKU_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "PRODUCT_SKU_UNIQUE" UNIQUE (sku);
+
+
+--
+-- TOC entry 3611 (class 2606 OID 16687)
+-- Name: product_description PRODUCT_URL_KEY_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_description
+    ADD CONSTRAINT "PRODUCT_URL_KEY_UNIQUE" UNIQUE (url_key);
+
+
+--
+-- TOC entry 3586 (class 2606 OID 16594)
+-- Name: product PRODUCT_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "PRODUCT_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3545 (class 2606 OID 16448)
+-- Name: session SESSION_PKEY; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT "SESSION_PKEY" PRIMARY KEY (sid);
+
+
+--
+-- TOC entry 3752 (class 2606 OID 17292)
+-- Name: setting SETTING_NAME_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.setting
+    ADD CONSTRAINT "SETTING_NAME_UNIQUE" UNIQUE (name);
+
+
+--
+-- TOC entry 3754 (class 2606 OID 17290)
+-- Name: setting SETTING_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.setting
+    ADD CONSTRAINT "SETTING_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3692 (class 2606 OID 17027)
+-- Name: shipment SHIPMENT_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipment
+    ADD CONSTRAINT "SHIPMENT_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3707 (class 2606 OID 17084)
+-- Name: shipping_method SHIPPING_METHOD_NAME_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_method
+    ADD CONSTRAINT "SHIPPING_METHOD_NAME_UNIQUE" UNIQUE (name);
+
+
+--
+-- TOC entry 3709 (class 2606 OID 17082)
+-- Name: shipping_method SHIPPING_METHOD_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_method
+    ADD CONSTRAINT "SHIPPING_METHOD_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3701 (class 2606 OID 17065)
+-- Name: shipping_zone_province SHIPPING_ZONE_PROVINCE_PROVINCE_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_province
+    ADD CONSTRAINT "SHIPPING_ZONE_PROVINCE_PROVINCE_UNIQUE" UNIQUE (province);
+
+
+--
+-- TOC entry 3703 (class 2606 OID 17063)
+-- Name: shipping_zone_province SHIPPING_ZONE_PROVINCE_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_province
+    ADD CONSTRAINT "SHIPPING_ZONE_PROVINCE_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3696 (class 2606 OID 17046)
+-- Name: shipping_zone SHIPPING_ZONE_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone
+    ADD CONSTRAINT "SHIPPING_ZONE_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3758 (class 2606 OID 17303)
+-- Name: tax_class TAX_CLASS_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tax_class
+    ADD CONSTRAINT "TAX_CLASS_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3762 (class 2606 OID 17329)
+-- Name: tax_rate TAX_RATE_PRIORITY_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tax_rate
+    ADD CONSTRAINT "TAX_RATE_PRIORITY_UNIQUE" UNIQUE (priority, tax_class_id);
+
+
+--
+-- TOC entry 3764 (class 2606 OID 17327)
+-- Name: tax_rate TAX_RATE_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tax_rate
+    ADD CONSTRAINT "TAX_RATE_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3687 (class 2606 OID 17008)
+-- Name: payment_transaction UNQ_PAYMENT_TRANSACTION_ID_ORDER_ID; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payment_transaction
+    ADD CONSTRAINT "UNQ_PAYMENT_TRANSACTION_ID_ORDER_ID" UNIQUE (payment_transaction_order_id, transaction_id);
+
+
+--
+-- TOC entry 3726 (class 2606 OID 17140)
+-- Name: cms_page_description URL_KEY_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cms_page_description
+    ADD CONSTRAINT "URL_KEY_UNIQUE" UNIQUE (url_key);
+
+
+--
+-- TOC entry 3641 (class 2606 OID 16833)
+-- Name: url_rewrite URL_REWRITE_PATH_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.url_rewrite
+    ADD CONSTRAINT "URL_REWRITE_PATH_UNIQUE" UNIQUE (language, entity_uuid);
+
+
+--
+-- TOC entry 3578 (class 2606 OID 16538)
+-- Name: variant_group VARIANT_GROUP_UUID_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "VARIANT_GROUP_UUID_UNIQUE" UNIQUE (uuid);
+
+
+--
+-- TOC entry 3538 (class 2606 OID 16410)
+-- Name: admin_user admin_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin_user
+    ADD CONSTRAINT admin_user_pkey PRIMARY KEY (admin_user_id);
+
+
+--
+-- TOC entry 3570 (class 2606 OID 16514)
+-- Name: attribute_group_link attribute_group_link_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_group_link
+    ADD CONSTRAINT attribute_group_link_pkey PRIMARY KEY (attribute_group_link_id);
+
+
+--
+-- TOC entry 3564 (class 2606 OID 16506)
+-- Name: attribute_group attribute_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_group
+    ADD CONSTRAINT attribute_group_pkey PRIMARY KEY (attribute_group_id);
+
+
+--
+-- TOC entry 3560 (class 2606 OID 16487)
+-- Name: attribute_option attribute_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_option
+    ADD CONSTRAINT attribute_option_pkey PRIMARY KEY (attribute_option_id);
+
+
+--
+-- TOC entry 3555 (class 2606 OID 16474)
+-- Name: attribute attribute_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute
+    ADD CONSTRAINT attribute_pkey PRIMARY KEY (attribute_id);
+
+
+--
+-- TOC entry 3656 (class 2606 OID 16896)
+-- Name: cart_address cart_address_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart_address
+    ADD CONSTRAINT cart_address_pkey PRIMARY KEY (cart_address_id);
+
+
+--
+-- TOC entry 3662 (class 2606 OID 16910)
+-- Name: cart_item cart_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart_item
+    ADD CONSTRAINT cart_item_pkey PRIMARY KEY (cart_item_id);
+
+
+--
+-- TOC entry 3652 (class 2606 OID 16885)
+-- Name: cart cart_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart
+    ADD CONSTRAINT cart_pkey PRIMARY KEY (cart_id);
+
+
+--
+-- TOC entry 3627 (class 2606 OID 16749)
+-- Name: category_description category_description_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category_description
+    ADD CONSTRAINT category_description_pkey PRIMARY KEY (category_description_id);
+
+
+--
+-- TOC entry 3620 (class 2606 OID 16719)
+-- Name: category category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_pkey PRIMARY KEY (category_id);
+
+
+--
+-- TOC entry 3728 (class 2606 OID 17136)
+-- Name: cms_page_description cms_page_description_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cms_page_description
+    ADD CONSTRAINT cms_page_description_pkey PRIMARY KEY (cms_page_description_id);
+
+
+--
+-- TOC entry 3721 (class 2606 OID 17126)
+-- Name: cms_page cms_page_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cms_page
+    ADD CONSTRAINT cms_page_pkey PRIMARY KEY (cms_page_id);
+
+
+--
+-- TOC entry 3633 (class 2606 OID 16770)
+-- Name: collection collection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.collection
+    ADD CONSTRAINT collection_pkey PRIMARY KEY (collection_id);
+
+
+--
+-- TOC entry 3750 (class 2606 OID 17240)
+-- Name: coupon coupon_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon
+    ADD CONSTRAINT coupon_pkey PRIMARY KEY (coupon_id);
+
+
+--
+-- TOC entry 3742 (class 2606 OID 17191)
+-- Name: customer_address customer_address_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_address
+    ADD CONSTRAINT customer_address_pkey PRIMARY KEY (customer_address_id);
+
+
+--
+-- TOC entry 3730 (class 2606 OID 17157)
+-- Name: customer_group customer_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_group
+    ADD CONSTRAINT customer_group_pkey PRIMARY KEY (customer_group_id);
+
+
+--
+-- TOC entry 3737 (class 2606 OID 17170)
+-- Name: customer customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (customer_id);
+
+
+--
+-- TOC entry 3549 (class 2606 OID 16459)
+-- Name: event event_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT event_pkey PRIMARY KEY (event_id);
+
+
+--
+-- TOC entry 3542 (class 2606 OID 16424)
+-- Name: migration migration_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.migration
+    ADD CONSTRAINT migration_pkey PRIMARY KEY (migration_id);
+
+
+--
+-- TOC entry 3673 (class 2606 OID 16957)
+-- Name: order_activity order_activity_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_activity
+    ADD CONSTRAINT order_activity_pkey PRIMARY KEY (order_activity_id);
+
+
+--
+-- TOC entry 3677 (class 2606 OID 16974)
+-- Name: order_address order_address_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_address
+    ADD CONSTRAINT order_address_pkey PRIMARY KEY (order_address_id);
+
+
+--
+-- TOC entry 3682 (class 2606 OID 16986)
+-- Name: order_item order_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_item
+    ADD CONSTRAINT order_item_pkey PRIMARY KEY (order_item_id);
+
+
+--
+-- TOC entry 3668 (class 2606 OID 16941)
+-- Name: order order_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."order"
+    ADD CONSTRAINT order_pkey PRIMARY KEY (order_id);
+
+
+--
+-- TOC entry 3689 (class 2606 OID 17004)
+-- Name: payment_transaction payment_transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payment_transaction
+    ADD CONSTRAINT payment_transaction_pkey PRIMARY KEY (payment_transaction_id);
+
+
+--
+-- TOC entry 3595 (class 2606 OID 16617)
+-- Name: product_attribute_value_index product_attribute_value_index_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_attribute_value_index
+    ADD CONSTRAINT product_attribute_value_index_pkey PRIMARY KEY (product_attribute_value_index_id);
+
+
+--
+-- TOC entry 3639 (class 2606 OID 16780)
+-- Name: product_collection product_collection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_collection
+    ADD CONSTRAINT product_collection_pkey PRIMARY KEY (product_collection_id);
+
+
+--
+-- TOC entry 3600 (class 2606 OID 16649)
+-- Name: product_custom_option product_custom_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_custom_option
+    ADD CONSTRAINT product_custom_option_pkey PRIMARY KEY (product_custom_option_id);
+
+
+--
+-- TOC entry 3605 (class 2606 OID 16667)
+-- Name: product_custom_option_value product_custom_option_value_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_custom_option_value
+    ADD CONSTRAINT product_custom_option_value_pkey PRIMARY KEY (product_custom_option_value_id);
+
+
+--
+-- TOC entry 3613 (class 2606 OID 16683)
+-- Name: product_description product_description_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_description
+    ADD CONSTRAINT product_description_pkey PRIMARY KEY (product_description_id);
+
+
+--
+-- TOC entry 3616 (class 2606 OID 16702)
+-- Name: product_image product_image_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_image
+    ADD CONSTRAINT product_image_pkey PRIMARY KEY (product_image_id);
+
+
+--
+-- TOC entry 3647 (class 2606 OID 16854)
+-- Name: product_inventory product_inventory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_inventory
+    ADD CONSTRAINT product_inventory_pkey PRIMARY KEY (product_inventory_id);
+
+
+--
+-- TOC entry 3588 (class 2606 OID 16592)
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (product_id);
+
+
+--
+-- TOC entry 3744 (class 2606 OID 17218)
+-- Name: reset_password_token reset_password_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reset_password_token
+    ADD CONSTRAINT reset_password_token_pkey PRIMARY KEY (reset_password_token_id);
+
+
+--
+-- TOC entry 3756 (class 2606 OID 17288)
+-- Name: setting setting_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.setting
+    ADD CONSTRAINT setting_pkey PRIMARY KEY (setting_id);
+
+
+--
+-- TOC entry 3694 (class 2606 OID 17025)
+-- Name: shipment shipment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipment
+    ADD CONSTRAINT shipment_pkey PRIMARY KEY (shipment_id);
+
+
+--
+-- TOC entry 3711 (class 2606 OID 17080)
+-- Name: shipping_method shipping_method_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_method
+    ADD CONSTRAINT shipping_method_pkey PRIMARY KEY (shipping_method_id);
+
+
+--
+-- TOC entry 3717 (class 2606 OID 17098)
+-- Name: shipping_zone_method shipping_zone_method_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_method
+    ADD CONSTRAINT shipping_zone_method_pkey PRIMARY KEY (shipping_zone_method_id);
+
+
+--
+-- TOC entry 3698 (class 2606 OID 17044)
+-- Name: shipping_zone shipping_zone_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone
+    ADD CONSTRAINT shipping_zone_pkey PRIMARY KEY (shipping_zone_id);
+
+
+--
+-- TOC entry 3705 (class 2606 OID 17061)
+-- Name: shipping_zone_province shipping_zone_province_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_province
+    ADD CONSTRAINT shipping_zone_province_pkey PRIMARY KEY (shipping_zone_province_id);
+
+
+--
+-- TOC entry 3760 (class 2606 OID 17301)
+-- Name: tax_class tax_class_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tax_class
+    ADD CONSTRAINT tax_class_pkey PRIMARY KEY (tax_class_id);
+
+
+--
+-- TOC entry 3766 (class 2606 OID 17325)
+-- Name: tax_rate tax_rate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tax_rate
+    ADD CONSTRAINT tax_rate_pkey PRIMARY KEY (tax_rate_id);
+
+
+--
+-- TOC entry 3643 (class 2606 OID 16831)
+-- Name: url_rewrite url_rewrite_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.url_rewrite
+    ADD CONSTRAINT url_rewrite_pkey PRIMARY KEY (url_rewrite_id);
+
+
+--
+-- TOC entry 3580 (class 2606 OID 16536)
+-- Name: variant_group variant_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT variant_group_pkey PRIMARY KEY (variant_group_id);
+
+
+--
+-- TOC entry 3571 (class 1259 OID 16574)
+-- Name: FK_ATTRIBUTE_GROUP_VARIANT; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_GROUP_VARIANT" ON public.variant_group USING btree (attribute_group_id);
+
+
+--
+-- TOC entry 3567 (class 1259 OID 16528)
+-- Name: FK_ATTRIBUTE_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_LINK" ON public.attribute_group_link USING btree (attribute_id);
+
+
+--
+-- TOC entry 3558 (class 1259 OID 16495)
+-- Name: FK_ATTRIBUTE_OPTION; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_OPTION" ON public.attribute_option USING btree (attribute_id);
+
+
+--
+-- TOC entry 3589 (class 1259 OID 16638)
+-- Name: FK_ATTRIBUTE_OPTION_VALUE_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_OPTION_VALUE_LINK" ON public.product_attribute_value_index USING btree (option_id);
+
+
+--
+-- TOC entry 3590 (class 1259 OID 16637)
+-- Name: FK_ATTRIBUTE_VALUE_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_VALUE_LINK" ON public.product_attribute_value_index USING btree (attribute_id);
+
+
+--
+-- TOC entry 3572 (class 1259 OID 16573)
+-- Name: FK_ATTRIBUTE_VARIANT_FIVE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_VARIANT_FIVE" ON public.variant_group USING btree (attribute_five);
+
+
+--
+-- TOC entry 3573 (class 1259 OID 16572)
+-- Name: FK_ATTRIBUTE_VARIANT_FOUR; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_VARIANT_FOUR" ON public.variant_group USING btree (attribute_four);
+
+
+--
+-- TOC entry 3574 (class 1259 OID 16569)
+-- Name: FK_ATTRIBUTE_VARIANT_ONE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_VARIANT_ONE" ON public.variant_group USING btree (attribute_one);
+
+
+--
+-- TOC entry 3575 (class 1259 OID 16571)
+-- Name: FK_ATTRIBUTE_VARIANT_THREE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_VARIANT_THREE" ON public.variant_group USING btree (attribute_three);
+
+
+--
+-- TOC entry 3576 (class 1259 OID 16570)
+-- Name: FK_ATTRIBUTE_VARIANT_TWO; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ATTRIBUTE_VARIANT_TWO" ON public.variant_group USING btree (attribute_two);
+
+
+--
+-- TOC entry 3659 (class 1259 OID 16923)
+-- Name: FK_CART_ITEM; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CART_ITEM" ON public.cart_item USING btree (cart_id);
+
+
+--
+-- TOC entry 3660 (class 1259 OID 16924)
+-- Name: FK_CART_ITEM_PRODUCT; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CART_ITEM_PRODUCT" ON public.cart_item USING btree (product_id);
+
+
+--
+-- TOC entry 3650 (class 1259 OID 17052)
+-- Name: FK_CART_SHIPPING_ZONE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CART_SHIPPING_ZONE" ON public.cart USING btree (shipping_zone_id);
+
+
+--
+-- TOC entry 3625 (class 1259 OID 16759)
+-- Name: FK_CATEGORY_DESCRIPTION; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CATEGORY_DESCRIPTION" ON public.category_description USING btree (category_description_category_id);
+
+
+--
+-- TOC entry 3722 (class 1259 OID 17146)
+-- Name: FK_CMS_PAGE_DESCRIPTION; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CMS_PAGE_DESCRIPTION" ON public.cms_page_description USING btree (cms_page_description_cms_page_id);
+
+
+--
+-- TOC entry 3634 (class 1259 OID 16793)
+-- Name: FK_COLLECTION_PRODUCT_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_COLLECTION_PRODUCT_LINK" ON public.product_collection USING btree (collection_id);
+
+
+--
+-- TOC entry 3740 (class 1259 OID 17199)
+-- Name: FK_CUSTOMER_ADDRESS; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CUSTOMER_ADDRESS" ON public.customer_address USING btree (customer_id);
+
+
+--
+-- TOC entry 3735 (class 1259 OID 17180)
+-- Name: FK_CUSTOMER_GROUP; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CUSTOMER_GROUP" ON public.customer USING btree (group_id);
+
+
+--
+-- TOC entry 3601 (class 1259 OID 16675)
+-- Name: FK_CUSTOM_OPTION_VALUE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_CUSTOM_OPTION_VALUE" ON public.product_custom_option_value USING btree (option_id);
+
+
+--
+-- TOC entry 3568 (class 1259 OID 16527)
+-- Name: FK_GROUP_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_GROUP_LINK" ON public.attribute_group_link USING btree (group_id);
+
+
+--
+-- TOC entry 3712 (class 1259 OID 17112)
+-- Name: FK_METHOD_ZONE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_METHOD_ZONE" ON public.shipping_zone_method USING btree (method_id);
+
+
+--
+-- TOC entry 3678 (class 1259 OID 16994)
+-- Name: FK_ORDER; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ORDER" ON public.order_item USING btree (order_item_order_id);
+
+
+--
+-- TOC entry 3669 (class 1259 OID 16965)
+-- Name: FK_ORDER_ACTIVITY; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ORDER_ACTIVITY" ON public.order_activity USING btree (order_activity_order_id);
+
+
+--
+-- TOC entry 3690 (class 1259 OID 17033)
+-- Name: FK_ORDER_SHIPMENT; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ORDER_SHIPMENT" ON public.shipment USING btree (shipment_order_id);
+
+
+--
+-- TOC entry 3683 (class 1259 OID 17014)
+-- Name: FK_PAYMENT_TRANSACTION_ORDER; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PAYMENT_TRANSACTION_ORDER" ON public.payment_transaction USING btree (payment_transaction_order_id);
+
+
+--
+-- TOC entry 3581 (class 1259 OID 16607)
+-- Name: FK_PRODUCT_ATTRIBUTE_GROUP; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_ATTRIBUTE_GROUP" ON public.product USING btree (group_id);
+
+
+--
+-- TOC entry 3591 (class 1259 OID 16639)
+-- Name: FK_PRODUCT_ATTRIBUTE_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_ATTRIBUTE_LINK" ON public.product_attribute_value_index USING btree (product_id);
+
+
+--
+-- TOC entry 3635 (class 1259 OID 16794)
+-- Name: FK_PRODUCT_COLLECTION_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_COLLECTION_LINK" ON public.product_collection USING btree (product_id);
+
+
+--
+-- TOC entry 3596 (class 1259 OID 16657)
+-- Name: FK_PRODUCT_CUSTOM_OPTION; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_CUSTOM_OPTION" ON public.product_custom_option USING btree (product_custom_option_product_id);
+
+
+--
+-- TOC entry 3606 (class 1259 OID 16693)
+-- Name: FK_PRODUCT_DESCRIPTION; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_DESCRIPTION" ON public.product_description USING btree (product_description_product_id);
+
+
+--
+-- TOC entry 3614 (class 1259 OID 16710)
+-- Name: FK_PRODUCT_IMAGE_LINK; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_IMAGE_LINK" ON public.product_image USING btree (product_image_product_id);
+
+
+--
+-- TOC entry 3582 (class 1259 OID 16608)
+-- Name: FK_PRODUCT_VARIANT_GROUP; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_PRODUCT_VARIANT_GROUP" ON public.product USING btree (variant_group_id);
+
+
+--
+-- TOC entry 3699 (class 1259 OID 17071)
+-- Name: FK_SHIPPING_ZONE_PROVINCE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_SHIPPING_ZONE_PROVINCE" ON public.shipping_zone_province USING btree (zone_id);
+
+
+--
+-- TOC entry 3713 (class 1259 OID 17111)
+-- Name: FK_ZONE_METHOD; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "FK_ZONE_METHOD" ON public.shipping_zone_method USING btree (zone_id);
+
+
+--
+-- TOC entry 3543 (class 1259 OID 16449)
+-- Name: IDX_SESSION_EXPIRE; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IDX_SESSION_EXPIRE" ON public.session USING btree (expire);
+
+
+--
+-- TOC entry 3609 (class 1259 OID 16866)
+-- Name: PRODUCT_SEARCH_INDEX; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "PRODUCT_SEARCH_INDEX" ON public.product_description USING gin (to_tsvector('simple'::regconfig, (((name)::text || ' '::text) || description)));
+
+
+--
+-- TOC entry 3819 (class 2620 OID 16835)
+-- Name: category ADD_CATEGORY_CREATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_CATEGORY_CREATED_EVENT_TRIGGER" AFTER INSERT ON public.category FOR EACH ROW EXECUTE FUNCTION public.add_category_created_event();
+
+
+--
+-- TOC entry 3820 (class 2620 OID 16839)
+-- Name: category ADD_CATEGORY_DELETED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_CATEGORY_DELETED_EVENT_TRIGGER" AFTER DELETE ON public.category FOR EACH ROW EXECUTE FUNCTION public.add_category_deleted_event();
+
+
+--
+-- TOC entry 3821 (class 2620 OID 16837)
+-- Name: category ADD_CATEGORY_UPDATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_CATEGORY_UPDATED_EVENT_TRIGGER" AFTER UPDATE ON public.category FOR EACH ROW EXECUTE FUNCTION public.add_category_updated_event();
+
+
+--
+-- TOC entry 3829 (class 2620 OID 17205)
+-- Name: customer ADD_CUSTOMER_CREATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_CUSTOMER_CREATED_EVENT_TRIGGER" AFTER INSERT ON public.customer FOR EACH ROW EXECUTE FUNCTION public.add_customer_created_event();
+
+
+--
+-- TOC entry 3830 (class 2620 OID 17209)
+-- Name: customer ADD_CUSTOMER_DELETED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_CUSTOMER_DELETED_EVENT_TRIGGER" AFTER DELETE ON public.customer FOR EACH ROW EXECUTE FUNCTION public.add_customer_deleted_event();
+
+
+--
+-- TOC entry 3831 (class 2620 OID 17207)
+-- Name: customer ADD_CUSTOMER_UPDATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_CUSTOMER_UPDATED_EVENT_TRIGGER" AFTER UPDATE ON public.customer FOR EACH ROW EXECUTE FUNCTION public.add_customer_updated_event();
+
+
+--
+-- TOC entry 3824 (class 2620 OID 16865)
+-- Name: product_inventory ADD_INVENTORY_UPDATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_INVENTORY_UPDATED_EVENT_TRIGGER" AFTER UPDATE ON public.product_inventory FOR EACH ROW EXECUTE FUNCTION public.add_product_inventory_updated_event();
+
+
+--
+-- TOC entry 3825 (class 2620 OID 17115)
+-- Name: order ADD_ORDER_CREATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_ORDER_CREATED_EVENT_TRIGGER" AFTER INSERT ON public."order" FOR EACH ROW EXECUTE FUNCTION public.add_order_created_event();
+
+
+--
+-- TOC entry 3811 (class 2620 OID 16841)
+-- Name: product ADD_PRODUCT_CREATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_PRODUCT_CREATED_EVENT_TRIGGER" AFTER INSERT ON public.product FOR EACH ROW EXECUTE FUNCTION public.add_product_created_event();
+
+
+--
+-- TOC entry 3812 (class 2620 OID 16845)
+-- Name: product ADD_PRODUCT_DELETED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_PRODUCT_DELETED_EVENT_TRIGGER" AFTER DELETE ON public.product FOR EACH ROW EXECUTE FUNCTION public.add_product_deleted_event();
+
+
+--
+-- TOC entry 3813 (class 2620 OID 16843)
+-- Name: product ADD_PRODUCT_UPDATED_EVENT_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "ADD_PRODUCT_UPDATED_EVENT_TRIGGER" AFTER UPDATE ON public.product FOR EACH ROW EXECUTE FUNCTION public.add_product_updated_event();
+
+
+--
+-- TOC entry 3823 (class 2620 OID 16821)
+-- Name: category_description BUILD_CATEGORY_URL_KEY_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "BUILD_CATEGORY_URL_KEY_TRIGGER" BEFORE INSERT OR UPDATE ON public.category_description FOR EACH ROW EXECUTE FUNCTION public.build_url_key();
+
+
+--
+-- TOC entry 3817 (class 2620 OID 16822)
+-- Name: product_description BUILD_PRODUCT_URL_KEY_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "BUILD_PRODUCT_URL_KEY_TRIGGER" BEFORE INSERT OR UPDATE ON public.product_description FOR EACH ROW EXECUTE FUNCTION public.build_url_key();
+
+
+--
+-- TOC entry 3822 (class 2620 OID 16863)
+-- Name: category DELETE_SUB_CATEGORIES_TRIGGER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "DELETE_SUB_CATEGORIES_TRIGGER" AFTER DELETE ON public.category FOR EACH ROW EXECUTE FUNCTION public.delete_sub_categories();
+
+
+--
+-- TOC entry 3814 (class 2620 OID 16798)
+-- Name: product PREVENT_CHANGING_ATTRIBUTE_GROUP_OF_PRODUCT_WITH_VARIANTS; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "PREVENT_CHANGING_ATTRIBUTE_GROUP_OF_PRODUCT_WITH_VARIANTS" BEFORE UPDATE ON public.product FOR EACH ROW EXECUTE FUNCTION public.prevent_change_attribute_group();
+
+
+--
+-- TOC entry 3809 (class 2620 OID 16796)
+-- Name: attribute_group PREVENT_DELETING_THE_DEFAULT_ATTRIBUTE_GROUP; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "PREVENT_DELETING_THE_DEFAULT_ATTRIBUTE_GROUP" BEFORE DELETE ON public.attribute_group FOR EACH ROW EXECUTE FUNCTION public.prevent_delete_default_attribute_group();
+
+
+--
+-- TOC entry 3828 (class 2620 OID 17201)
+-- Name: customer_group PREVENT_DELETING_THE_DEFAULT_CUSTOMER_GROUP; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "PREVENT_DELETING_THE_DEFAULT_CUSTOMER_GROUP" BEFORE DELETE ON public.customer_group FOR EACH ROW EXECUTE FUNCTION public.prevent_delete_default_customer_group();
+
+
+--
+-- TOC entry 3833 (class 2620 OID 17310)
+-- Name: tax_class PREVENT_DELETING_THE_DEFAULT_TAX_CLASS; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "PREVENT_DELETING_THE_DEFAULT_TAX_CLASS" BEFORE DELETE ON public.tax_class FOR EACH ROW EXECUTE FUNCTION public.prevent_delete_default_tax_class();
+
+
+--
+-- TOC entry 3818 (class 2620 OID 16869)
+-- Name: product_image PRODUCT_IMAGE_ADDED; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "PRODUCT_IMAGE_ADDED" AFTER INSERT ON public.product_image FOR EACH ROW EXECUTE FUNCTION public.product_image_insert_trigger();
+
+
+--
+-- TOC entry 3832 (class 2620 OID 17203)
+-- Name: customer SET_DEFAULT_CUSTOMER_GROUP; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "SET_DEFAULT_CUSTOMER_GROUP" BEFORE INSERT ON public.customer FOR EACH ROW EXECUTE FUNCTION public.set_default_customer_group();
+
+
+--
+-- TOC entry 3807 (class 2620 OID 16802)
+-- Name: attribute_option TRIGGER_AFTER_ATTRIBUTE_OPTION_UPDATE; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "TRIGGER_AFTER_ATTRIBUTE_OPTION_UPDATE" AFTER UPDATE ON public.attribute_option FOR EACH ROW EXECUTE FUNCTION public.update_product_attribute_option_value_text();
+
+
+--
+-- TOC entry 3808 (class 2620 OID 16804)
+-- Name: attribute_option TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "TRIGGER_AFTER_DELETE_ATTRIBUTE_OPTION" AFTER DELETE ON public.attribute_option FOR EACH ROW EXECUTE FUNCTION public.delete_product_attribute_value_index();
+
+
+--
+-- TOC entry 3827 (class 2620 OID 17113)
+-- Name: order_item TRIGGER_AFTER_INSERT_ORDER_ITEM; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "TRIGGER_AFTER_INSERT_ORDER_ITEM" AFTER INSERT ON public.order_item FOR EACH ROW EXECUTE FUNCTION public.reduce_product_stock_when_order_placed();
+
+
+--
+-- TOC entry 3815 (class 2620 OID 16806)
+-- Name: product TRIGGER_AFTER_INSERT_PRODUCT; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE CONSTRAINT TRIGGER "TRIGGER_AFTER_INSERT_PRODUCT" AFTER INSERT ON public.product DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE FUNCTION public.update_variant_group_visibility();
+
+
+--
+-- TOC entry 3810 (class 2620 OID 16800)
+-- Name: attribute_group_link TRIGGER_AFTER_REMOVE_ATTRIBUTE_FROM_GROUP; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "TRIGGER_AFTER_REMOVE_ATTRIBUTE_FROM_GROUP" AFTER DELETE ON public.attribute_group_link FOR EACH ROW EXECUTE FUNCTION public.remove_attribute_from_group();
+
+
+--
+-- TOC entry 3806 (class 2620 OID 16812)
+-- Name: attribute TRIGGER_AFTER_UPDATE_ATTRIBUTE; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "TRIGGER_AFTER_UPDATE_ATTRIBUTE" AFTER UPDATE ON public.attribute FOR EACH ROW EXECUTE FUNCTION public.delete_variant_group_after_attribute_type_changed();
+
+
+--
+-- TOC entry 3816 (class 2620 OID 16813)
+-- Name: product TRIGGER_PRODUCT_AFTER_UPDATE; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE CONSTRAINT TRIGGER "TRIGGER_PRODUCT_AFTER_UPDATE" AFTER UPDATE ON public.product DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.update_attribute_index_and_variant_group_visibility();
+
+
+--
+-- TOC entry 3826 (class 2620 OID 17246)
+-- Name: order TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "TRIGGER_UPDATE_COUPON_USED_TIME_AFTER_CREATE_ORDER" AFTER INSERT ON public."order" FOR EACH ROW EXECUTE FUNCTION public.set_coupon_used_time();
+
+
+--
+-- TOC entry 3770 (class 2606 OID 16539)
+-- Name: variant_group FK_ATTRIBUTE_GROUP_VARIANT; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "FK_ATTRIBUTE_GROUP_VARIANT" FOREIGN KEY (attribute_group_id) REFERENCES public.attribute_group(attribute_group_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3768 (class 2606 OID 16517)
+-- Name: attribute_group_link FK_ATTRIBUTE_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_group_link
+    ADD CONSTRAINT "FK_ATTRIBUTE_LINK" FOREIGN KEY (attribute_id) REFERENCES public.attribute(attribute_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3767 (class 2606 OID 16490)
+-- Name: attribute_option FK_ATTRIBUTE_OPTION; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_option
+    ADD CONSTRAINT "FK_ATTRIBUTE_OPTION" FOREIGN KEY (attribute_id) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3780 (class 2606 OID 16622)
+-- Name: product_attribute_value_index FK_ATTRIBUTE_OPTION_VALUE_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_attribute_value_index
+    ADD CONSTRAINT "FK_ATTRIBUTE_OPTION_VALUE_LINK" FOREIGN KEY (option_id) REFERENCES public.attribute_option(attribute_option_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3781 (class 2606 OID 16627)
+-- Name: product_attribute_value_index FK_ATTRIBUTE_VALUE_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_attribute_value_index
+    ADD CONSTRAINT "FK_ATTRIBUTE_VALUE_LINK" FOREIGN KEY (attribute_id) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3771 (class 2606 OID 16544)
+-- Name: variant_group FK_ATTRIBUTE_VARIANT_FIVE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "FK_ATTRIBUTE_VARIANT_FIVE" FOREIGN KEY (attribute_five) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3772 (class 2606 OID 16549)
+-- Name: variant_group FK_ATTRIBUTE_VARIANT_FOUR; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "FK_ATTRIBUTE_VARIANT_FOUR" FOREIGN KEY (attribute_four) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3773 (class 2606 OID 16554)
+-- Name: variant_group FK_ATTRIBUTE_VARIANT_ONE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "FK_ATTRIBUTE_VARIANT_ONE" FOREIGN KEY (attribute_one) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3774 (class 2606 OID 16559)
+-- Name: variant_group FK_ATTRIBUTE_VARIANT_THREE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "FK_ATTRIBUTE_VARIANT_THREE" FOREIGN KEY (attribute_three) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3775 (class 2606 OID 16564)
+-- Name: variant_group FK_ATTRIBUTE_VARIANT_TWO; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.variant_group
+    ADD CONSTRAINT "FK_ATTRIBUTE_VARIANT_TWO" FOREIGN KEY (attribute_two) REFERENCES public.attribute(attribute_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3792 (class 2606 OID 16913)
+-- Name: cart_item FK_CART_ITEM; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart_item
+    ADD CONSTRAINT "FK_CART_ITEM" FOREIGN KEY (cart_id) REFERENCES public.cart(cart_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3793 (class 2606 OID 16918)
+-- Name: cart_item FK_CART_ITEM_PRODUCT; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart_item
+    ADD CONSTRAINT "FK_CART_ITEM_PRODUCT" FOREIGN KEY (product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3791 (class 2606 OID 17047)
+-- Name: cart FK_CART_SHIPPING_ZONE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cart
+    ADD CONSTRAINT "FK_CART_SHIPPING_ZONE" FOREIGN KEY (shipping_zone_id) REFERENCES public.shipping_zone(shipping_zone_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3787 (class 2606 OID 16754)
+-- Name: category_description FK_CATEGORY_DESCRIPTION; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.category_description
+    ADD CONSTRAINT "FK_CATEGORY_DESCRIPTION" FOREIGN KEY (category_description_category_id) REFERENCES public.category(category_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3801 (class 2606 OID 17141)
+-- Name: cms_page_description FK_CMS_PAGE_DESCRIPTION; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cms_page_description
+    ADD CONSTRAINT "FK_CMS_PAGE_DESCRIPTION" FOREIGN KEY (cms_page_description_cms_page_id) REFERENCES public.cms_page(cms_page_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3788 (class 2606 OID 16783)
+-- Name: product_collection FK_COLLECTION_PRODUCT_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_collection
+    ADD CONSTRAINT "FK_COLLECTION_PRODUCT_LINK" FOREIGN KEY (collection_id) REFERENCES public.collection(collection_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3803 (class 2606 OID 17194)
+-- Name: customer_address FK_CUSTOMER_ADDRESS; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_address
+    ADD CONSTRAINT "FK_CUSTOMER_ADDRESS" FOREIGN KEY (customer_id) REFERENCES public.customer(customer_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3802 (class 2606 OID 17175)
+-- Name: customer FK_CUSTOMER_GROUP; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer
+    ADD CONSTRAINT "FK_CUSTOMER_GROUP" FOREIGN KEY (group_id) REFERENCES public.customer_group(customer_group_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3784 (class 2606 OID 16670)
+-- Name: product_custom_option_value FK_CUSTOM_OPTION_VALUE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_custom_option_value
+    ADD CONSTRAINT "FK_CUSTOM_OPTION_VALUE" FOREIGN KEY (option_id) REFERENCES public.product_custom_option(product_custom_option_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3769 (class 2606 OID 16522)
+-- Name: attribute_group_link FK_GROUP_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.attribute_group_link
+    ADD CONSTRAINT "FK_GROUP_LINK" FOREIGN KEY (group_id) REFERENCES public.attribute_group(attribute_group_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3799 (class 2606 OID 17106)
+-- Name: shipping_zone_method FK_METHOD_ZONE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_method
+    ADD CONSTRAINT "FK_METHOD_ZONE" FOREIGN KEY (method_id) REFERENCES public.shipping_method(shipping_method_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3795 (class 2606 OID 16989)
+-- Name: order_item FK_ORDER; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_item
+    ADD CONSTRAINT "FK_ORDER" FOREIGN KEY (order_item_order_id) REFERENCES public."order"(order_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3794 (class 2606 OID 16960)
+-- Name: order_activity FK_ORDER_ACTIVITY; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_activity
+    ADD CONSTRAINT "FK_ORDER_ACTIVITY" FOREIGN KEY (order_activity_order_id) REFERENCES public."order"(order_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3797 (class 2606 OID 17028)
+-- Name: shipment FK_ORDER_SHIPMENT; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipment
+    ADD CONSTRAINT "FK_ORDER_SHIPMENT" FOREIGN KEY (shipment_order_id) REFERENCES public."order"(order_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3796 (class 2606 OID 17009)
+-- Name: payment_transaction FK_PAYMENT_TRANSACTION_ORDER; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payment_transaction
+    ADD CONSTRAINT "FK_PAYMENT_TRANSACTION_ORDER" FOREIGN KEY (payment_transaction_order_id) REFERENCES public."order"(order_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3776 (class 2606 OID 16597)
+-- Name: product FK_PRODUCT_ATTRIBUTE_GROUP; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "FK_PRODUCT_ATTRIBUTE_GROUP" FOREIGN KEY (group_id) REFERENCES public.attribute_group(attribute_group_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3782 (class 2606 OID 16632)
+-- Name: product_attribute_value_index FK_PRODUCT_ATTRIBUTE_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_attribute_value_index
+    ADD CONSTRAINT "FK_PRODUCT_ATTRIBUTE_LINK" FOREIGN KEY (product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3789 (class 2606 OID 16788)
+-- Name: product_collection FK_PRODUCT_COLLECTION_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_collection
+    ADD CONSTRAINT "FK_PRODUCT_COLLECTION_LINK" FOREIGN KEY (product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3783 (class 2606 OID 16652)
+-- Name: product_custom_option FK_PRODUCT_CUSTOM_OPTION; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_custom_option
+    ADD CONSTRAINT "FK_PRODUCT_CUSTOM_OPTION" FOREIGN KEY (product_custom_option_product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3785 (class 2606 OID 16688)
+-- Name: product_description FK_PRODUCT_DESCRIPTION; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_description
+    ADD CONSTRAINT "FK_PRODUCT_DESCRIPTION" FOREIGN KEY (product_description_product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3786 (class 2606 OID 16705)
+-- Name: product_image FK_PRODUCT_IMAGE_LINK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_image
+    ADD CONSTRAINT "FK_PRODUCT_IMAGE_LINK" FOREIGN KEY (product_image_product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3777 (class 2606 OID 16602)
+-- Name: product FK_PRODUCT_VARIANT_GROUP; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "FK_PRODUCT_VARIANT_GROUP" FOREIGN KEY (variant_group_id) REFERENCES public.variant_group(variant_group_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3804 (class 2606 OID 17219)
+-- Name: reset_password_token FK_RESET_PASSWORD_TOKEN_CUSTOMER; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reset_password_token
+    ADD CONSTRAINT "FK_RESET_PASSWORD_TOKEN_CUSTOMER" FOREIGN KEY (customer_id) REFERENCES public.customer(customer_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3798 (class 2606 OID 17066)
+-- Name: shipping_zone_province FK_SHIPPING_ZONE_PROVINCE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_province
+    ADD CONSTRAINT "FK_SHIPPING_ZONE_PROVINCE" FOREIGN KEY (zone_id) REFERENCES public.shipping_zone(shipping_zone_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3778 (class 2606 OID 17304)
+-- Name: product FK_TAX_CLASS; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "FK_TAX_CLASS" FOREIGN KEY (tax_class) REFERENCES public.tax_class(tax_class_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3805 (class 2606 OID 17330)
+-- Name: tax_rate FK_TAX_RATE_TAX_CLASS; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tax_rate
+    ADD CONSTRAINT "FK_TAX_RATE_TAX_CLASS" FOREIGN KEY (tax_class_id) REFERENCES public.tax_class(tax_class_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3800 (class 2606 OID 17101)
+-- Name: shipping_zone_method FK_ZONE_METHOD; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipping_zone_method
+    ADD CONSTRAINT "FK_ZONE_METHOD" FOREIGN KEY (zone_id) REFERENCES public.shipping_zone(shipping_zone_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3779 (class 2606 OID 16815)
+-- Name: product PRODUCT_CATEGORY_ID_CONSTRAINT; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT "PRODUCT_CATEGORY_ID_CONSTRAINT" FOREIGN KEY (category_id) REFERENCES public.category(category_id) ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3790 (class 2606 OID 16857)
+-- Name: product_inventory PRODUCT_INVENTORY_PRODUCT_ID_CONSTANTSRAINT; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_inventory
+    ADD CONSTRAINT "PRODUCT_INVENTORY_PRODUCT_ID_CONSTANTSRAINT" FOREIGN KEY (product_inventory_product_id) REFERENCES public.product(product_id) ON DELETE CASCADE;
+
+
+-- Completed on 2024-04-28 14:53:34
+
+--
+-- PostgreSQL database dump complete
+--
+
